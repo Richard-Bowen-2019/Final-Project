@@ -5,7 +5,9 @@
  */
 package FinalProject;
 
-import javax.swing.JFrame;
+import FinalProject.View.Map.Map;
+
+
 
 /**
  *
@@ -16,8 +18,9 @@ public class Main {
     
   
     public static void main(String[] args) {
-    new Traffic();
-    
+        new Map();
     }
-    
+             
+        
+
 }

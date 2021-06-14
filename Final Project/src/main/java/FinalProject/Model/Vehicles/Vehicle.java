@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.GUIComponents.Map;
+package FinalProject.Model.Vehicles;
 
 /**
  *
  * @author Richard
  */
-public class Module {
+public class Vehicle {
     
 }
