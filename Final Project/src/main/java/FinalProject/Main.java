@@ -5,7 +5,8 @@
  */
 package FinalProject;
 
-import FinalProject.View.Map.Map;
+import FinalProject.Model.Map.IntersectionModel;
+import FinalProject.View.Map.TrafficMap;
 
 
 
@@ -18,7 +19,8 @@ public class Main {
     
   
     public static void main(String[] args) {
-        new Map();
+        new TrafficMap();
+        new IntersectionModel();
     }
              
         

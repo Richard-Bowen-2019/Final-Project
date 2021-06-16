@@ -17,10 +17,10 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Richard
  */
-public class Map {
+public class TrafficMap {
     JFrame frame;  
   
-    public Map(){
+    public TrafficMap(){
         frame = new JFrame();
         frame.setBackground(Color.WHITE);
       
