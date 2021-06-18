@@ -45,11 +45,7 @@ public class TrafficMap {
     
     private void connectMap()
     {
-        for(
-            {
-                map.
-            }
-        }
+       width = 5;
     }
     
     public Module getModule(int x, int y)

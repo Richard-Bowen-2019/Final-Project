@@ -8,10 +8,9 @@ package FinalProject.View.Map;
 import FinalProject.GUIDimensions;
 import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.JButton;
+
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
 
 /**
  *
@@ -42,7 +41,7 @@ public class TrafficMap {
         frame.setSize(GUIDimensions.getScreenSize());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.pack();
+        
        
         frame.setVisible(true);
     }

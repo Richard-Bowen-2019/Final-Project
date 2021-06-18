@@ -37,9 +37,27 @@ public class Edge {
         }
     }
     
-    private void increaseWeighting()
+    public void increaseWeighting()
     {
         weighting++;
     }
 
+    public int getWeighting()
+    {
+        return this.weighting;
+    }
+    
+    public void printEdge()
+    {
+        System.out.println("Weighting: " + this.weighting);
+        System.out.println("Source label: " + this.source.getLabel());
+        System.out.println("Source type: " + this.source.getType());
+        System.out.println("Destination label: " + this.destination.getLabel());
+        System.out.println("Destination type: " + this.destination.getType());
+        for(int i =0;i<slots.size();i++)
+        {
+            System.out.println("Slot "+ i + ": " + slots.get(i));
+        }
+    }
+            
 }

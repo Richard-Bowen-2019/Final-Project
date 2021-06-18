@@ -38,6 +38,15 @@ public class Vertex {
         return edges;
     }
     
+    public void printVertex()
+    {
+        System.out.println("Label: " + label);
+        System.out.println("Type: " + type);
+        for(Edge e : edges)
+        {
+            e.printEdge();
+        }
+    }
     
 }
 
