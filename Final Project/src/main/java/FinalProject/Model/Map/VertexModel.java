@@ -11,14 +11,35 @@ import java.util.ArrayList;
  *
  * @author Richard
  */
-public class Vertex {
+public class VertexModel {
     ArrayList<Edge> edges = new ArrayList<>();
     String type;
     String label;
-    Vertex(String label, String type) {
+    int connections;
+    boolean visited;
+    
+    VertexModel(String label, String type) {
         this.label = label;
         this.type = type;
+        this.connections = 0;
+        visited = false;
     }
+    
+    public void setVisited()
+    {
+        this.visited = true;
+    }
+    
+    public boolean getVisited()
+    {
+        return visited;
+    }
+    
+    public void setNotVisited()
+    {
+        this.visited = false;
+    }
+        
     
     public String getType()
     {
@@ -38,15 +59,26 @@ public class Vertex {
         return edges;
     }
     
+    public void increaseConnections(){
+        connections++;
+    }
+    
+    public int getConnections()
+    {
+        return connections;
+    }
+    
     public void printVertex()
     {
         System.out.println("Label: " + label);
         System.out.println("Type: " + type);
-        for(Edge e : edges)
+        System.out.println("Connections: " + connections);
+        /*for(Edge e : edges)
         {
             e.printEdge();
-        }
+        }*/
     }
+    
     
 }
 

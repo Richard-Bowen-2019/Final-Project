@@ -18,14 +18,20 @@ import static org.junit.Assert.*;
  * @author Richard
  */
 public class VertexTest {
-    Vertex source = new Vertex("North","In");
-    Vertex destination1 = new Vertex("South","Out");
+    VertexModel source = new VertexModel("North","In");
+    VertexModel destination1 = new VertexModel("South","Out");
     Edge testEdge1 = new Edge(source,destination1);
-    Vertex destination2 = new Vertex("West","Out");
+    VertexModel destination2 = new VertexModel("West","Out");
     Edge testEdge2 = new Edge(source,destination2);
     
     
     public VertexTest() {
+    if(testEdge1==null||testEdge2==null);
+    {
+        System.out.println("No edges");
+    }
+    testEdge1.printEdge();
+    testEdge1.printEdge();
     }
     
     @BeforeClass
@@ -42,8 +48,9 @@ public class VertexTest {
     
     @After
     public void tearDown() {
-        source.printVertex();
+        
     }
+    
 
     /**
      * Test of getType method, of class Vertex.
@@ -73,6 +80,7 @@ public class VertexTest {
     @Test
     public void testAddEdge() {
         System.out.println("addEdge");
+        testEdge1.printEdge();
         source.addEdge(testEdge1);
         assertEquals(source.edges.size(),1);
     }
@@ -82,8 +90,10 @@ public class VertexTest {
      */
     @Test
     public void testGetEdges() {
+        
         source.addEdge(testEdge1);
         source.addEdge(testEdge2);
+        source.printVertex();
         ArrayList<Edge> expResult = new ArrayList<>();
         expResult.add(testEdge1);
         expResult.add(testEdge2);

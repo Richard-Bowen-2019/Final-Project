@@ -12,37 +12,37 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class Module {
-    ArrayList<Vertex> vertices = new ArrayList<>();
-    String[] direction = {"North", "South", "east", "West"};    
+    ArrayList<VertexModel> vertices = new ArrayList<>();
+    String[] direction = {"North", "South", "East", "West"};    
     String[] type = {"In","Out"};
-
+    String label;
     
-    int xPosition;
-    int yPosition;
     
-    public Module(int x, int y){
+    
+    public Module(String label){
         createVertices();
-        addEdges();
-        this.xPosition = x;
-        this.yPosition = y;
+        createEdges();
+        this.label = label;
     }    
     
-    public void createVertices()
+    private void createVertices()
     {
+        
         for(int i=0;i<direction.length;i++)
         {
             for(int j = 0;j<type.length;j++)
             {
-                Vertex vertex = new Vertex(type[j],direction[i]);
+                VertexModel vertex = new VertexModel(direction[i],type[j]);
                 vertices.add(vertex);
             }
-        }       
+        }
+        
     }
     
-    private Vertex getVertex(String label,String type)
+    public VertexModel getVertex(String label,String type)
     {
-        Vertex vertex = null;
-        for(Vertex i : vertices)
+        VertexModel vertex = null;
+        for(VertexModel i : vertices)
         {
             if(i.getLabel()==label&&i.getType()==type)
             {
@@ -52,34 +52,46 @@ public class Module {
         return vertex;    
     }
     
-    private void addEdges()
+    private void createEdges()
     {
         for(int i = 0;i<direction.length;i++)
         {
-            Vertex source = getVertex(direction[i],"In");
-        
-            for(Vertex v : vertices)
+            VertexModel source = getVertex(direction[i],"In");
+            for(VertexModel v : vertices)
             {
-                if(v.getLabel()!=direction[i]||v.getType()!="In")
+                if(v.getType()=="Out"&&v.getLabel()!=direction[i])
                 {
-                    Edge edge = new Edge(source,v);
-                    v.addEdge(edge);
-                }    
+                    source.addEdge(new Edge(source,v));
+                    source.increaseConnections();
+                    v.increaseConnections();
+                }
+            }
+        
+    }
+    }
+    
+    public ArrayList<VertexModel> getEntryNodes()
+    {
+        ArrayList<VertexModel> freeNodes = new ArrayList<>();
+        for(VertexModel v : vertices)
+        {
+            if(v.getConnections()<4)
+            {
+                freeNodes.add(v);
             }
         }
+        return freeNodes;
     }
     
     public void printVerticesAndEdges()
     {
-         
-    }            
+        for(VertexModel v: vertices)
+        {
+            System.out.println("Vertex: " + v.getLabel()+ " - " + v.getType());
+            System.out.println(v.getConnections());
+        }            
+    }
     
-    public int getx() {
-        return xPosition;
-    }
-
-    public int gety() {
-        return yPosition;
-    }
+    
     
 }

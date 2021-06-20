@@ -19,8 +19,8 @@ import static org.junit.Assert.*;
  * @author Richard
  */
 public class EdgeTest {
-    Vertex source = new Vertex("North","In");
-    Vertex destination = new Vertex("South","Out");
+    VertexModel source = new VertexModel("North","In");
+    VertexModel destination = new VertexModel("South","Out");
     Edge testEdge = new Edge(source,destination);
     
     public EdgeTest() {

@@ -6,8 +6,9 @@
 package FinalProject;
 
 
-import FinalProject.View.Map.TrafficMap;
-
+import FinalProject.Model.Map.Module;
+import FinalProject.Model.Map.TrafficMapModel;
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +20,7 @@ public class Main {
     
   
     public static void main(String[] args) {
-        new TrafficMap();
+        ArrayList<ArrayList<Module>> mapInstance = TrafficMapModel.getMapInstance();
         
     }
              

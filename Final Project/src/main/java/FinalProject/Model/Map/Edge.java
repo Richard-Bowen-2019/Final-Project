@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class Edge {
     int weighting;
     ArrayList<Integer> slots = new ArrayList<>();
-    Vertex source;
-    Vertex destination;
-    public Edge(Vertex source,Vertex destination){
+    VertexModel source;
+    VertexModel destination;
+    public Edge(VertexModel source,VertexModel destination){
         this.weighting = 0;
         initiateSlots();
         this.source = source;
@@ -58,6 +58,7 @@ public class Edge {
         {
             System.out.println("Slot "+ i + ": " + slots.get(i));
         }
+        
     }
             
 }
