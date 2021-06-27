@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.GUIComponents.Map;
+package FinalProject.Model.Vehicles;
 
 /**
  *
  * @author Richard
  */
-public class Intersection {
+public class Truck extends Vehicle{
+
+    public Truck() {
+        this.Size = 3;
+    }
     
 }

@@ -5,7 +5,16 @@
  */
 package FinalProject;
 
-import javax.swing.JFrame;
+
+
+import FinalProject.Model.Map.Module;
+import FinalProject.Model.Map.TrafficMapModel;
+import static java.lang.Math.log;
+import static java.rmi.server.LogStream.log;
+import java.util.ArrayList;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -13,11 +22,13 @@ import javax.swing.JFrame;
  */
 public class Main {
 
+    TrafficMapModel traffic;
     
-  
-    public static void main(String[] args) {
-    new Traffic();
-    
+    public static void main(String[] args) throws InterruptedException  {
+        new StartSimulation();
     }
+        
     
+        
+
 }

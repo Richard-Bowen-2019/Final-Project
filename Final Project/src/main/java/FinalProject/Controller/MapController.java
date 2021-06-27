@@ -3,12 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.GUIComponents.Map;
+package FinalProject.Controller;
 
 /**
  *
  * @author Richard
  */
-public class Module {
+public class MapController {
+
+    /**
+     * @param args the command line arguments
+     */
     
+    public void updateMapModel()
+    {
+        System.out.println("Model update");
+    }
 }
