@@ -3,14 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.GUIComponents.Map;
-
-import javax.swing.JFrame;
+package FinalProject.Controller;
 
 /**
  *
  * @author Richard
  */
-public class Traffic extends JFrame{
+public class MapController {
+
+    /**
+     * @param args the command line arguments
+     */
     
+    public void updateMapModel()
+    {
+        System.out.println("Model update");
+    }
 }

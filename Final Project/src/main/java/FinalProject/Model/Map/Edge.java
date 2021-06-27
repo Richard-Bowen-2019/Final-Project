@@ -15,6 +15,10 @@ public class Edge {
     int weighting;
     ArrayList<Integer> slots = new ArrayList<>();
     VertexModel source;
+
+    public VertexModel getSource() {
+        return source;
+    }
     VertexModel destination;
     public Edge(VertexModel source,VertexModel destination){
         this.weighting = 0;
@@ -37,6 +41,10 @@ public class Edge {
         }
     }
     
+    public VertexModel getDestination(){
+        return destination;
+    }
+    
     public void increaseWeighting()
     {
         weighting++;
@@ -54,11 +62,11 @@ public class Edge {
         System.out.println("Source type: " + this.source.getType());
         System.out.println("Destination label: " + this.destination.getLabel());
         System.out.println("Destination type: " + this.destination.getType());
-        for(int i =0;i<slots.size();i++)
+        /*for(int i =0;i<slots.size();i++)
         {
             System.out.println("Slot "+ i + ": " + slots.get(i));
         }
-        
+        */
     }
             
 }

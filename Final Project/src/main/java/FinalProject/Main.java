@@ -6,9 +6,14 @@
 package FinalProject;
 
 
+
 import FinalProject.Model.Map.Module;
 import FinalProject.Model.Map.TrafficMapModel;
+import static java.lang.Math.log;
+import static java.rmi.server.LogStream.log;
 import java.util.ArrayList;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 /**
@@ -17,13 +22,13 @@ import java.util.ArrayList;
  */
 public class Main {
 
+    TrafficMapModel traffic;
     
-  
-    public static void main(String[] args) {
-        ArrayList<ArrayList<Module>> mapInstance = TrafficMapModel.getMapInstance();
-        
+    public static void main(String[] args) throws InterruptedException  {
+        new StartSimulation();
     }
-             
+        
+    
         
 
 }

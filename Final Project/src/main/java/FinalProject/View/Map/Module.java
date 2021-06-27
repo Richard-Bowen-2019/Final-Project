@@ -5,7 +5,7 @@
  */
 package FinalProject.View.Map;
 
-import FinalProject.GUIDimensions;
+import FinalProject.GlobalVariables;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;

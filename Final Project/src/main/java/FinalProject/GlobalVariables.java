@@ -12,14 +12,14 @@ import java.awt.Toolkit;
  *
  * @author Richard
  */
-public class GUIDimensions {
+public class GlobalVariables {
     
     static final int horizontalModules = 5;
 
    
     static final int verticalModules = 3;
     
-    private GUIDimensions()
+    private GlobalVariables()
     {
     
     }

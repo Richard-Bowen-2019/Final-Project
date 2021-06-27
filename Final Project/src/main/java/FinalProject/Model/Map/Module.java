@@ -22,7 +22,7 @@ public class Module {
     public Module(String label){
         createVertices();
         createEdges();
-        this.label = label;
+        this.label=label;
     }    
     
     private void createVertices()
@@ -32,11 +32,16 @@ public class Module {
         {
             for(int j = 0;j<type.length;j++)
             {
-                VertexModel vertex = new VertexModel(direction[i],type[j]);
+                VertexModel vertex = new VertexModel(direction[i],type[j],this.getLabel());
                 vertices.add(vertex);
             }
         }
         
+    }
+    
+    public ArrayList<VertexModel> getvertices()
+    {
+        return vertices;
     }
     
     public VertexModel getVertex(String label,String type)
@@ -67,21 +72,14 @@ public class Module {
                 }
             }
         
+        }
+        
     }
+    public String getLabel()
+    {
+        return label;
     }
     
-    public ArrayList<VertexModel> getEntryNodes()
-    {
-        ArrayList<VertexModel> freeNodes = new ArrayList<>();
-        for(VertexModel v : vertices)
-        {
-            if(v.getConnections()<4)
-            {
-                freeNodes.add(v);
-            }
-        }
-        return freeNodes;
-    }
     
     public void printVerticesAndEdges()
     {

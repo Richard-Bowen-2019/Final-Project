@@ -5,7 +5,7 @@
  */
 package FinalProject.View.Map;
 
-import FinalProject.GUIDimensions;
+import FinalProject.GlobalVariables;
 import java.awt.Color;
 import java.awt.GridLayout;
 
@@ -38,7 +38,7 @@ public class TrafficMap {
         gl.setVgap(-2);
         //setting grid layout of 3 rows and 3 columns  
 
-        frame.setSize(GUIDimensions.getScreenSize());
+        frame.setSize(GlobalVariables.getScreenSize());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

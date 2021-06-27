@@ -5,7 +5,8 @@
  */
 package FinalProject.Model.Map;
 
-import java.awt.List;
+import FinalProject.Controller.SimulationClock;
+import FinalProject.Model.Map.Routes.Routeloader;
 import java.util.ArrayList;
 
 /**
@@ -13,33 +14,31 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class TrafficMapModel {
-    private static ArrayList<ArrayList<Module>> map;
-    private static ArrayList<VertexModel> entryNodes;
-    private static ArrayList<VertexModel> exitNodes;
+
+    private static TrafficMapModel mapInstance =null;
+    private ArrayList<ArrayList<Module>> map= new ArrayList<>();
+    private ArrayList<Edge> entryNodes = new ArrayList<>();
+    private ArrayList<Edge> exitNodes = new ArrayList<>();        
+  
+            
+    private TrafficMapModel() throws InterruptedException {
+        
+        createMap();
+        connectMap();
+        createEntryAndExitNodes();
+    }
+    public static TrafficMapModel getMapInstance() throws InterruptedException {
+        
+        if (mapInstance == null) 
+        {
+            mapInstance = new TrafficMapModel();
+        }
+       return mapInstance;
+    }
+    
     
     int width = 5;
     int height = 3;
-    
-    private TrafficMapModel()
-    {
-        createMap();
-        connectMap();
-        entryNodes = new ArrayList<>();
-        exitNodes = new ArrayList<>();
-        createEntryAndExitNodes();
-        printEntryandExitNodes();
-        }
-    
-    public static ArrayList<ArrayList<Module>> getMapInstance()
-    {
-        if(map==null)
-        {
-            map = new ArrayList<ArrayList<Module>>();
-            new TrafficMapModel();
-            return map;
-        }
-        return map; 
-    }
     
     private void createMap()
     {
@@ -55,83 +54,115 @@ public class TrafficMapModel {
             map.add(temp);
         }
     }       
-    
+
     private void connectMap()
     {
-        for(int i = 0;i<height-1;i++)
+        for(int i = 0;i<map.size();i++)
         {
-            for(int j=0;j<width-1;j++)
+            for(int j=0;j<map.get(i).size()-1;j++)
             {
+                
                 //add horizontal edges 
                 VertexModel source = map.get(i).get(j).getVertex("East", "Out");
                 VertexModel destination = map.get(i).get(j+1).getVertex("West","In");
-                source.addEdge(new Edge(source,destination));
+                destination.addEdge(new Edge(source,destination));
                 source.increaseConnections();
                 destination.increaseConnections();
                 
                 source = map.get(i).get(j+1).getVertex("West","Out");
                 destination = map.get(i).get(j).getVertex("East","In");
-                source.addEdge(new Edge(source,destination));
-                source.increaseConnections();
-                destination.increaseConnections();
-
-
-                //add vertical edges
-                source = map.get(i).get(j).getVertex("South", "Out");
-                destination = map.get(i+1).get(j).getVertex("North","In");
-                source.addEdge(new Edge(source,destination));
-                source.increaseConnections();
-                destination.increaseConnections();
-                
-                source = map.get(i).get(j+1).getVertex("North","Out");
-                destination = map.get(i).get(j).getVertex("South","In");
-                source.addEdge(new Edge(source,destination));
+                destination.addEdge(new Edge(source,destination));
                 source.increaseConnections();
                 destination.increaseConnections();
             }
-           
-           
+        }
+        for(int i = 0;i<map.size()-1;i++)
+        {
+            for(int j=0;j<map.get(i).size();j++)
+            {
+                //add vertical edges
+                VertexModel source = map.get(i).get(j).getVertex("South", "Out");
+                VertexModel destination = map.get(i+1).get(j).getVertex("North","In");
+                Edge soni = new Edge(source,destination);
+                destination.addEdge(soni);
+                source.increaseConnections();
+                destination.increaseConnections();
+                                
+                source = map.get(i+1).get(j).getVertex("North","Out");
+                destination = map.get(i).get(j).getVertex("South","In");
+                Edge nosi = new Edge(source,destination);
+                destination.addEdge(nosi);
+                source.increaseConnections();
+                destination.increaseConnections();
+            }
+        }
     }
+    public void updateMapStatus()
+    {
+        System.out.println("Map updated");
     }
-    
     
     private void createEntryAndExitNodes()
     {
         for(ArrayList<Module> list : map)
         {
-            for(Module m : list)
+            for(Module m:list)
             {
-                ArrayList<VertexModel> freeNodes = m.getEntryNodes();
-                for(VertexModel vm: freeNodes)
+                for(VertexModel vm: m.getvertices())
                 {
-                    if(vm.getType()=="In")
+                    if(vm.getConnections()<4)
                     {
-                        entryNodes.add(vm);
-                    }
-                    else if(vm.getType()=="Out")
-                    {
-                        exitNodes.add(vm);
-                    }
-                    else
-                    {
-                        System.out.println("Error: Vertex with no In or Out type defined");
-                    }
+                        if(vm.getType()=="In")
+                        {
+                        Edge e = new Edge(null,vm);
+                        vm.addEdge(e);
+                        entryNodes.add(e);
+                        }
+                        else 
+                        {
+                        Edge e = new Edge(null,vm);
+                        vm.addEdge(e);
+                        exitNodes.add(e);
+                        }
+                    }        
                 }
             }
         }
     }
     
-    public void printEntryandExitNodes()
+    public void updateMapModel()
     {
-        System.out.println("Entry Nodes");
-        for(VertexModel vm: entryNodes)
+        System.out.println("Model update");
+    }
+    
+    public void printModel()
+    {
+        for(ArrayList<Module> list : map)
         {
-            vm.printVertex();
+            for(Module m:list)
+            {
+                System.out.println("Module:"+m.getLabel());
+                for(VertexModel vm: m.getvertices())
+                {
+                    vm.printVertex();
+                }
+                
+            }        
         }
-        System.out.println("Exit Nodes");
-        for(VertexModel vm: exitNodes)
-        {
-            vm.printVertex();
-        }
+    }
+    
+    
+    
+    
+    public ArrayList<Edge> getEntryNodes() {
+        return entryNodes;
+    }
+
+    public ArrayList<Edge> getExitNodes() {
+        return exitNodes;
+    }
+    
+    public ArrayList<ArrayList<Module>> getMap(){
+            return map;
     }
 }

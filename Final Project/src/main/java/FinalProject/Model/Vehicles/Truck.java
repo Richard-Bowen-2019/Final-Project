@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.GUIComponents.Map;
-
-import javax.swing.JFrame;
+package FinalProject.Model.Vehicles;
 
 /**
  *
  * @author Richard
  */
-public class Intersection extends JFrame{
-    
+public class Truck extends Vehicle{
+
+    public Truck() {
+        this.Size = 3;
+    }
     
 }
