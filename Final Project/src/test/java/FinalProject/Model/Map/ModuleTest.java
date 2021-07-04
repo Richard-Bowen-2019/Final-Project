@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class ModuleTest {
     String[] direction = {"North", "South", "east", "West"};    
     String[] type = {"In","Out"};    
-    Module testModule = new Module("test");
+    Intersection testModule = new Intersection("test");
     public ModuleTest() {
     }
     

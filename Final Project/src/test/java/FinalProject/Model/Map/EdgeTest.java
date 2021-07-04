@@ -19,9 +19,9 @@ import static org.junit.Assert.*;
  * @author Richard
  */
 public class EdgeTest {
-    VertexModel source = new VertexModel("North","In");
-    VertexModel destination = new VertexModel("South","Out");
-    Edge testEdge = new Edge(source,destination);
+    IntersectionVertex source = new IntersectionVertex("North","In");
+    IntersectionVertex destination = new IntersectionVertex("South","Out");
+    Road testEdge = new Road(source,destination);
     
     public EdgeTest() {
     }
@@ -42,7 +42,7 @@ public class EdgeTest {
     @After
     public void tearDown() {
         testEdge.printEdge();
-        testEdge = new Edge(source, destination);
+        testEdge = new Road(source, destination);
     }
 
     /**
