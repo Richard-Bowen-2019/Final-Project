@@ -5,13 +5,18 @@
  */
 package FinalProject.Model.Vehicles;
 
+import FinalProject.Model.Map.Road;
+import FinalProject.Model.Map.Intersection;
+import FinalProject.Model.Map.IntersectionVertex;
+
 /**
  *
  * @author Richard
  */
 public class Car extends Vehicle{
     
-    public Car() {
+    public Car(Intersection module,IntersectionVertex model, Road edge) {
+        super(module,model,edge);
         this.Size = 2;
     }
 }

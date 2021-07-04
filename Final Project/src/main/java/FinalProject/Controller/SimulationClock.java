@@ -6,6 +6,7 @@
 package FinalProject.Controller;
 
 
+import FinalProject.Controller.Vehicle.VehicleController;
 import FinalProject.Model.Map.TrafficMapModel;
 import java.awt.List;
 import java.util.ArrayList;
@@ -21,16 +22,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class SimulationClock {
     private static SimulationClock clock;
-  
+    
     int n=0;
    
     private SimulationClock() throws InterruptedException {
-        while(n==0)
-        {
-            TimeUnit.SECONDS.sleep(1);
-            //updateMap();
-            
-        }
+        TimeUnit.SECONDS.sleep(1);
+        
+        VehicleController controller = new VehicleController();
+        controller.seedVehicle(1);
+        
     }
     
     public static SimulationClock getClockInstance() throws InterruptedException {
@@ -41,9 +41,7 @@ public class SimulationClock {
         return clock;
     }
     
-   public void updateMap() throws InterruptedException{
-            TrafficMapModel.getMapInstance().updateMapModel();
-      }
+   
    } 	
     
 

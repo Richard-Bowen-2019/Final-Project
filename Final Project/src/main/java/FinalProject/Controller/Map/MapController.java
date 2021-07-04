@@ -5,18 +5,14 @@
  */
 package FinalProject.Controller.Map;
 
+
 /**
  *
  * @author Richard
  */
 public class MapController {
 
-    /**
-     * @param args the command line arguments
-     */
     
-    public void updateMapModel()
-    {
-        System.out.println("Model update");
-    }
+    
+  
 }

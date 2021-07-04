@@ -18,11 +18,11 @@ import static org.junit.Assert.*;
  * @author Richard
  */
 public class VertexTest {
-    VertexModel source = new VertexModel("North","In");
-    VertexModel destination1 = new VertexModel("South","Out");
-    Edge testEdge1 = new Edge(source,destination1);
-    VertexModel destination2 = new VertexModel("West","Out");
-    Edge testEdge2 = new Edge(source,destination2);
+    IntersectionVertex source = new IntersectionVertex("North","In");
+    IntersectionVertex destination1 = new IntersectionVertex("South","Out");
+    Road testEdge1 = new Road(source,destination1);
+    IntersectionVertex destination2 = new IntersectionVertex("West","Out");
+    Road testEdge2 = new Road(source,destination2);
     
     
     public VertexTest() {
@@ -94,10 +94,10 @@ public class VertexTest {
         source.addEdge(testEdge1);
         source.addEdge(testEdge2);
         source.printVertex();
-        ArrayList<Edge> expResult = new ArrayList<>();
+        ArrayList<Road> expResult = new ArrayList<>();
         expResult.add(testEdge1);
         expResult.add(testEdge2);
-        ArrayList<Edge> result = source.getEdges();
+        ArrayList<Road> result = source.getOutEdges();
         assertEquals(expResult, result);
         
     }

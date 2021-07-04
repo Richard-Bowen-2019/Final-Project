@@ -11,43 +11,44 @@ import java.util.ArrayList;
  *
  * @author Richard
  */
-public class Module {
-    ArrayList<VertexModel> vertices = new ArrayList<>();
+public class Intersection {
+    ArrayList<IntersectionVertex> vertices = new ArrayList<>();
     String[] direction = {"North", "South", "East", "West"};    
     String[] type = {"In","Out"};
     String label;
     
     
     
-    public Module(String label){
-        createVertices();
+    public Intersection(String label){
+        createVertices(label);
         createEdges();
         this.label=label;
+        
     }    
     
-    private void createVertices()
+    private void createVertices(String label)
     {
         
         for(int i=0;i<direction.length;i++)
         {
             for(int j = 0;j<type.length;j++)
             {
-                VertexModel vertex = new VertexModel(direction[i],type[j],this.getLabel());
+                IntersectionVertex vertex = new IntersectionVertex(direction[i],type[j],label);
                 vertices.add(vertex);
             }
         }
         
     }
     
-    public ArrayList<VertexModel> getvertices()
+    public ArrayList<IntersectionVertex> getvertices()
     {
         return vertices;
     }
     
-    public VertexModel getVertex(String label,String type)
+    public IntersectionVertex getVertex(String label,String type)
     {
-        VertexModel vertex = null;
-        for(VertexModel i : vertices)
+        IntersectionVertex vertex = null;
+        for(IntersectionVertex i : vertices)
         {
             if(i.getLabel()==label&&i.getType()==type)
             {
@@ -61,12 +62,12 @@ public class Module {
     {
         for(int i = 0;i<direction.length;i++)
         {
-            VertexModel source = getVertex(direction[i],"In");
-            for(VertexModel v : vertices)
+            IntersectionVertex source = getVertex(direction[i],"In");
+            for(IntersectionVertex v : vertices)
             {
                 if(v.getType()=="Out"&&v.getLabel()!=direction[i])
                 {
-                    source.addEdge(new Edge(source,v));
+                    source.addEdge(new Road(source,v));
                     source.increaseConnections();
                     v.increaseConnections();
                 }
@@ -80,10 +81,14 @@ public class Module {
         return label;
     }
     
+    public boolean containsVertex(IntersectionVertex v)
+    {
+        return vertices.contains(v);
+    }
     
     public void printVerticesAndEdges()
     {
-        for(VertexModel v: vertices)
+        for(IntersectionVertex v: vertices)
         {
             System.out.println("Vertex: " + v.getLabel()+ " - " + v.getType());
             System.out.println(v.getConnections());

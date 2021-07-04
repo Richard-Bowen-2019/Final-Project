@@ -6,8 +6,9 @@
 package FinalProject;
 
 import FinalProject.Controller.SimulationClock;
-import FinalProject.Model.Map.Routes.Routeloader;
+
 import FinalProject.Model.Map.TrafficMapModel;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,19 +16,21 @@ import java.util.logging.Logger;
  *
  * @author Richard
  */
-public class StartSimulation{ 
+public class StartSimulation{
+    SimulationClock clockStart;
+    TrafficMapModel model;
+    
     public StartSimulation() throws InterruptedException
     {
         ModelThread mthread = new ModelThread();
         mthread.start();
+        TimeUnit.SECONDS.sleep(5);    
         ClockThread cthread = new ClockThread();
         cthread.start();
-        //RouteThread rthread = new RouteThread();
-        //rthread.start();
     }
 
     class ClockThread extends Thread{
-        SimulationClock clockStart;
+        
         @Override
         public void run() {
             try {
@@ -39,7 +42,7 @@ public class StartSimulation{
     }    
     
     class ModelThread extends Thread{
-        TrafficMapModel model;
+        
         @Override
         public void run() {
             try {
@@ -49,17 +52,7 @@ public class StartSimulation{
             }
         }
     }    
-    class RouteThread extends Thread{
-        Routeloader loader;
-        @Override
-        public void run() {
-            try {
-                loader = Routeloader.getRouteInstance();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(RouteThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+   
 }
     
     
