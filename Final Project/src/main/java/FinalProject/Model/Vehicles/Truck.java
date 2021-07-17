@@ -5,9 +5,10 @@
  */
 package FinalProject.Model.Vehicles;
 
-import FinalProject.Model.Map.Road;
+import FinalProject.Model.Map.Edge;
 import FinalProject.Model.Map.Intersection;
-import FinalProject.Model.Map.IntersectionVertex;
+import FinalProject.Model.Map.Node;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,8 +16,8 @@ import FinalProject.Model.Map.IntersectionVertex;
  */
 public class Truck extends Vehicle{
 
-    public Truck(Intersection module,IntersectionVertex model, Road edge) {
-        super(module,model,edge);
+    public Truck(LinkedList<Node> route) {
+        super(route);
         this.Size = 3;
     }
     

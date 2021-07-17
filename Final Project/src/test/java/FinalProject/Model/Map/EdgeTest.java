@@ -19,30 +19,23 @@ import static org.junit.Assert.*;
  * @author Richard
  */
 public class EdgeTest {
-    IntersectionVertex source = new IntersectionVertex("North","In");
-    IntersectionVertex destination = new IntersectionVertex("South","Out");
-    Road testEdge = new Road(source,destination);
-    
-    public EdgeTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-        
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
+    int[] start = {0,0};
+    int[] end = {0,1};
+    int[] end2 = {1,0};
+    Node source = new Node("North","In",start);
+    Node destination = new Node("South","Out",end);
+    Edge testEdge = new Edge(source,destination);
+    Node source2 = new Node("South","Out",start);
+    Node destination2 = new Node("North","In",end);
+    Edge testEdge2 = new Edge(source2,destination2);
+    Node source3 = null;
+    Node destination3 = new Node("North","In",end2);
+    Edge testEdge3 = new Edge(source3,destination3);
+            
     @After
     public void tearDown() {
-        testEdge.printEdge();
-        testEdge = new Road(source, destination);
+        //testEdge.printEdge();
+        testEdge = new Edge(source, destination);
     }
 
     /**
@@ -50,19 +43,19 @@ public class EdgeTest {
      */
     @Test
     public void testOccupySlot() {
-        System.out.println("occupySlot");
+        //System.out.println("occupySlot");
         int slot = 0;
         testEdge.occupySlot(slot);
         assertEquals(testEdge.weighting,1);
-        assertEquals(testEdge.slots.get(slot).intValue(),1);
+        assertEquals(testEdge.slots[slot],1);
         slot = 3;
-        testEdge.occupySlot(slot);
-        assertEquals(testEdge.weighting,2);
-        assertEquals(testEdge.slots.get(slot).intValue(),1);
+        testEdge2.occupySlot(slot);
+        assertEquals(testEdge2.weighting,1);
+        assertEquals(testEdge2.slots[slot],1);
         slot = 5;
-        testEdge.occupySlot(slot);
-        assertEquals(testEdge.weighting,3);
-        assertEquals(testEdge.slots.get(slot).intValue(),1);
+        testEdge3.occupySlot(slot);
+        assertEquals(testEdge3.weighting,1);
+        assertEquals(testEdge3.slots[slot],1);
     }
 
     /**
@@ -70,7 +63,7 @@ public class EdgeTest {
      */
     @Test
     public void testIncreaseWeighting() {
-        System.out.println("increaseWeighting");
+        //System.out.println("increaseWeighting");
         testEdge.increaseWeighting();
         Assert.assertEquals(testEdge.weighting,1);
         testEdge.increaseWeighting();

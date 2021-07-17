@@ -5,21 +5,17 @@
  */
 package FinalProject.Model.Vehicles;
 
-import FinalProject.Model.Map.Edge;
-import FinalProject.Model.Map.Intersection;
 import FinalProject.Model.Map.Node;
+import FinalProject.Model.Map.Edge;
 import java.util.LinkedList;
 
 /**
  *
  * @author Richard
  */
-public class Van extends Vehicle{
-
-    public Van(LinkedList<Node> route) 
-    {
-        super(route);
-        this.Size = 2;
-    }
-    
+public interface iVehicle {
+   void setSize(int n);
+   int getSize();
+   void startPosition(Edge r);
+   void move();   
 }
