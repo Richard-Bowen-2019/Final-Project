@@ -12,43 +12,41 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class Intersection {
-    ArrayList<IntersectionVertex> vertices = new ArrayList<>();
+    
+    ArrayList<Node> vertices = new ArrayList<>();
     String[] direction = {"North", "South", "East", "West"};    
     String[] type = {"In","Out"};
-    String label;
+    int [] intersectionPosition;
     
-    
-    
-    public Intersection(String label){
-        createVertices(label);
+    public Intersection(int[] position)
+    {
+        this.intersectionPosition = position;
+        createVertices();
         createEdges();
-        this.label=label;
-        
     }    
     
-    private void createVertices(String label)
+    public void createVertices()
     {
-        
         for(int i=0;i<direction.length;i++)
         {
             for(int j = 0;j<type.length;j++)
             {
-                IntersectionVertex vertex = new IntersectionVertex(direction[i],type[j],label);
+                Node vertex = new Node(direction[i],type[j],intersectionPosition);
                 vertices.add(vertex);
             }
         }
         
     }
     
-    public ArrayList<IntersectionVertex> getvertices()
+    public ArrayList<Node> getvertices()
     {
         return vertices;
     }
     
-    public IntersectionVertex getVertex(String label,String type)
+    public Node getVertex(String label,String type)
     {
-        IntersectionVertex vertex = null;
-        for(IntersectionVertex i : vertices)
+        Node vertex = null;
+        for(Node i : vertices)
         {
             if(i.getLabel()==label&&i.getType()==type)
             {
@@ -62,36 +60,31 @@ public class Intersection {
     {
         for(int i = 0;i<direction.length;i++)
         {
-            IntersectionVertex source = getVertex(direction[i],"In");
-            for(IntersectionVertex v : vertices)
+            Node source = getVertex(direction[i],"In");
+            for(Node v : vertices)
             {
                 if(v.getType()=="Out"&&v.getLabel()!=direction[i])
                 {
-                    source.addEdge(new Road(source,v));
-                    source.increaseConnections();
-                    v.increaseConnections();
+                    source.addEdge(new Edge(source,v));
                 }
             }
         
         }
         
     }
-    public String getLabel()
-    {
-        return label;
-    }
     
-    public boolean containsVertex(IntersectionVertex v)
+    
+    public boolean containsVertex(Node v)
     {
         return vertices.contains(v);
     }
     
     public void printVerticesAndEdges()
     {
-        for(IntersectionVertex v: vertices)
+        for(Node v: vertices)
         {
-            System.out.println("Vertex: " + v.getLabel()+ " - " + v.getType());
-            System.out.println(v.getConnections());
+            //System.out.println("Vertex: " + v.getLabel()+ " - " + v.getType());
+            //System.out.println(v.getConnections());
         }            
     }
     
