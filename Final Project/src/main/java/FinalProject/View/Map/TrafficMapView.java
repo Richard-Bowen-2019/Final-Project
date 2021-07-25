@@ -8,6 +8,7 @@ package FinalProject.View.Map;
 import FinalProject.GlobalVariables;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -16,33 +17,26 @@ import javax.swing.JFrame;
  *
  * @author Richard
  */
-public class TrafficMap {
+public class TrafficMapView {
     JFrame frame;  
-  
-    public TrafficMap(){
+    ArrayList<ArrayList<ModuleView>> mapGUI;
+    public TrafficMapView(){
         frame = new JFrame();
         frame.setBackground(Color.WHITE);
-      
-               
-        
-        
-        
-        
-        for(int i = 0;i<50;i++)
+        for(int i = 0;i<GlobalVariables.getVerticalModules();i++)
         {
-        frame.add(new Module());
+            for(int j = 0;j<GlobalVariables.getHorizontalModules();j++)
+            {
+                frame.add(new ModuleView(i,j));
+            }
         }
         
-        GridLayout gl = new GridLayout(5,10);
+        GridLayout gl = new GridLayout(GlobalVariables.getVerticalModules(),GlobalVariables.getHorizontalModules());
         frame.setLayout(gl);
         gl.setVgap(-2);
-        //setting grid layout of 3 rows and 3 columns  
-
         frame.setSize(GlobalVariables.getScreenSize());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-       
         frame.setVisible(true);
     }
 }

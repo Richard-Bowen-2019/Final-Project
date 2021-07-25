@@ -9,6 +9,9 @@ package FinalProject.View.Vehicles;
  *
  * @author Richard
  */
-public class Vehicle {
-    
+public class VanView extends VehicleView{
+    public VanView()
+    {
+        
+    }
 }

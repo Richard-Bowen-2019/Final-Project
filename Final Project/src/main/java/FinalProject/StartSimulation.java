@@ -8,6 +8,7 @@ package FinalProject;
 import FinalProject.Controller.SimulationClock;
 
 import FinalProject.Model.Map.TrafficMapModel;
+import FinalProject.View.Map.TrafficMapView;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,40 +20,15 @@ import java.util.logging.Logger;
 public class StartSimulation{
     SimulationClock clockStart;
     TrafficMapModel model;
+    TrafficMapView map;
     
     public StartSimulation() throws InterruptedException
     {
-        ModelThread mthread = new ModelThread();
-        mthread.start();
+        model = TrafficMapModel.getMapInstance();
+        map = new TrafficMapView();
         TimeUnit.SECONDS.sleep(5);    
-        ClockThread cthread = new ClockThread();
-        cthread.start();
+        clockStart = SimulationClock.getClockInstance();
     }
-
-    class ClockThread extends Thread{
-        
-        @Override
-        public void run() {
-            try {
-                clockStart = SimulationClock.getClockInstance();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ClockThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }    
-    
-    class ModelThread extends Thread{
-        
-        @Override
-        public void run() {
-            try {
-                model = TrafficMapModel.getMapInstance();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ModelThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }    
-   
 }
     
     

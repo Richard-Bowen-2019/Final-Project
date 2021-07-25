@@ -15,13 +15,13 @@ import static org.junit.Assert.*;
  */
 public class NodeTest {
     int[] module = {0,0};
-    Node source = new Node("North","In",module);
-    Node destination1 = new Node("South","Out",module);
-    Edge testEdge1 = new Edge(source,destination1);
-    Node destination2 = new Node("West","Out",module);
-    Edge testEdge2 = new Edge(source,destination2);
-    Edge testEdge3 = new Edge(source,null);
-    Edge testEdge4 = new Edge(null, destination1);
+    VertexModel source = new VertexModel("North","In",module);
+    VertexModel destination1 = new VertexModel("South","Out",module);
+    RoadModel testEdge1 = new RoadModel(source,destination1);
+    VertexModel destination2 = new VertexModel("West","Out",module);
+    RoadModel testEdge2 = new RoadModel(source,destination2);
+    RoadModel testEdge3 = new RoadModel(source,null);
+    RoadModel testEdge4 = new RoadModel(null, destination1);
     
     public NodeTest() {
     source.addEdge(testEdge1);
@@ -36,9 +36,9 @@ public class NodeTest {
     @Test
     public void testGetInRoads() {
         //System.out.println("getInRoads");
-        ArrayList<Edge> expResult = new ArrayList<>();
+        ArrayList<RoadModel> expResult = new ArrayList<>();
         expResult.add(testEdge4);
-        ArrayList<Edge> result = source.getInRoads();
+        ArrayList<RoadModel> result = source.getInRoads();
         assertEquals(expResult, result);
     }
 
@@ -48,9 +48,9 @@ public class NodeTest {
     @Test
     public void testGetOutRoads() {
         //System.out.println("getOutRoads");
-        ArrayList<Edge> expResult = new ArrayList<>();
+        ArrayList<RoadModel> expResult = new ArrayList<>();
         expResult.add(testEdge3);
-        ArrayList<Edge> result = source.getOutRoads();
+        ArrayList<RoadModel> result = source.getOutRoads();
         assertEquals(expResult, result);
     }
 
@@ -96,12 +96,12 @@ public class NodeTest {
      */
     @Test
     public void testGetEdges() {
-        ArrayList<Edge> expResult = new ArrayList<>();
+        ArrayList<RoadModel> expResult = new ArrayList<>();
         expResult.add(testEdge1);
         expResult.add(testEdge2);
         expResult.add(testEdge3);
         expResult.add(testEdge4);
-        ArrayList<Edge> result = source.getEdges();
+        ArrayList<RoadModel> result = source.getEdges();
         assertEquals(expResult, result);
     }
 
@@ -123,8 +123,8 @@ public class NodeTest {
     @Test
     public void testGetRoad() {
         //System.out.println("getRoad");
-        Edge expResult = testEdge1;
-        Edge result = source.getRoad(source, destination1);
+        RoadModel expResult = testEdge1;
+        RoadModel result = source.getRoad(source, destination1);
         assertEquals(expResult, result);
         
     }
@@ -139,7 +139,7 @@ public class NodeTest {
     public void testSetParent() {
         //System.out.println("setParent");
         source.setParent(destination1);
-        Node result = source.getParent();
+        VertexModel result = source.getParent();
         assertEquals(destination1,result);
     }
 }

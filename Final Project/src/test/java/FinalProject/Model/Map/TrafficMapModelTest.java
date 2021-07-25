@@ -34,15 +34,15 @@ public class TrafficMapModelTest {
      */
     @Test
     public void testMap() {
-        Intersection intersection1 = model.getMap().get(0).get(0);
-        Node node1 = intersection1.getVertex("North", "In");
-        Node node2 = intersection1.getVertex("North", "Out");
-        Node node3 = intersection1.getVertex("South", "Out");
-        Node node5 = intersection1.getVertex("South", "In");
-        Node node6 = intersection1.getVertex("East", "Out");
-        Node node7 = intersection1.getVertex("East", "In");
-        Node node8 = intersection1.getVertex("West", "Out");
-        Node node9 = intersection1.getVertex("West", "In");
+        IntersectionModel intersection1 = model.getMap().get(0).get(0);
+        VertexModel node1 = intersection1.getVertex("North", "In");
+        VertexModel node2 = intersection1.getVertex("North", "Out");
+        VertexModel node3 = intersection1.getVertex("South", "Out");
+        VertexModel node5 = intersection1.getVertex("South", "In");
+        VertexModel node6 = intersection1.getVertex("East", "Out");
+        VertexModel node7 = intersection1.getVertex("East", "In");
+        VertexModel node8 = intersection1.getVertex("West", "Out");
+        VertexModel node9 = intersection1.getVertex("West", "In");
         
         assertTrue(node1.containsIn());
         assertFalse(node2.containsIn());
@@ -61,11 +61,11 @@ public class TrafficMapModelTest {
         planner.getRoute();
         model.resetMap();
         boolean reset = true;
-        for(ArrayList<Intersection> alis : model.getMap())
+        for(ArrayList<IntersectionModel> alis : model.getMap())
         {
-            for(Intersection is : alis)
+            for(IntersectionModel is : alis)
             {
-                for(Node isv : is.getvertices())
+                for(VertexModel isv : is.getvertices())
                 {
                     if(isv.getParent()!=null)
                     {
@@ -83,7 +83,7 @@ public class TrafficMapModelTest {
     @Test
     public void testgetXandY() {
         //System.out.println("getXandY");
-        Node testNode = model.getMap().get(0).get(0).getVertex("South","In");
+        VertexModel testNode = model.getMap().get(0).get(0).getVertex("South","In");
         int[] expResult = {5,8};
         int[] result = testNode.getXandY();
         Assert.assertArrayEquals(expResult,result);
@@ -109,7 +109,7 @@ public class TrafficMapModelTest {
     @Test
     public void testGetPosition() {
         //System.out.println("getPosition");
-        Node vm = model.getMap().get(0).get(0).getVertex("North","In");
+        VertexModel vm = model.getMap().get(0).get(0).getVertex("North","In");
         int[] expResult = {0,0};
         int[] result = model.getPosition(vm);
         assertArrayEquals(expResult, result);
@@ -121,7 +121,7 @@ public class TrafficMapModelTest {
     @Test
     public void testGetEntryNodes() {
         //System.out.println("getEntryNodes");
-        ArrayList<Node> expResult = new ArrayList<>();
+        ArrayList<VertexModel> expResult = new ArrayList<>();
         expResult.add(model.getMap().get(0).get(0).getVertex("West", "In"));
         expResult.add(model.getMap().get(0).get(0).getVertex("North", "In"));
         expResult.add(model.getMap().get(0).get(1).getVertex("North", "In"));
@@ -138,9 +138,9 @@ public class TrafficMapModelTest {
         expResult.add(model.getMap().get(2).get(3).getVertex("South", "In"));
         expResult.add(model.getMap().get(2).get(4).getVertex("South", "In"));
         expResult.add(model.getMap().get(2).get(4).getVertex("East", "In"));
-        ArrayList<Node> result = model.getEntryNodes();
+        ArrayList<VertexModel> result = model.getEntryNodes();
         boolean equal = true;
-        for(Node m : result)
+        for(VertexModel m : result)
         {
             if(!expResult.contains(m))
             {
@@ -156,7 +156,7 @@ public class TrafficMapModelTest {
     @Test
     public void testGetExitNodes() {
         //System.out.println("getExitNodes");
-        ArrayList<Node> expResult = new ArrayList<>();
+        ArrayList<VertexModel> expResult = new ArrayList<>();
         expResult.add(model.getMap().get(0).get(0).getVertex("West", "Out"));
         expResult.add(model.getMap().get(0).get(0).getVertex("North", "Out"));
         expResult.add(model.getMap().get(0).get(1).getVertex("North", "Out"));
@@ -173,9 +173,9 @@ public class TrafficMapModelTest {
         expResult.add(model.getMap().get(2).get(3).getVertex("South", "Out"));
         expResult.add(model.getMap().get(2).get(4).getVertex("South", "Out"));
         expResult.add(model.getMap().get(2).get(4).getVertex("East", "Out"));
-        ArrayList<Node> result = model.getExitNodes();
+        ArrayList<VertexModel> result = model.getExitNodes();
         boolean equal = true;
-        for(Node m : result)
+        for(VertexModel m : result)
         {
             if(!expResult.contains(m))
             {
@@ -191,9 +191,9 @@ public class TrafficMapModelTest {
     @Test
     public void testGetModule() {
         //System.out.println("getModule");
-        Node vm = model.getMap().get(0).get(0).getVertex("West", "Out");
-        Intersection expResult = model.getMap().get(0).get(0);
-        Intersection result = model.getModule(vm);
+        VertexModel vm = model.getMap().get(0).get(0).getVertex("West", "Out");
+        IntersectionModel expResult = model.getMap().get(0).get(0);
+        IntersectionModel result = model.getModule(vm);
         assertEquals(expResult, result);
     }
 }

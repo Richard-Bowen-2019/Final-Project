@@ -5,10 +5,16 @@
  */
 package FinalProject.Controller;
 
+import FinalProject.Model.Map.RoadModel;
+import FinalProject.Model.Map.VertexModel;
+import FinalProject.Model.Vehicles.VehicleModel;
+import java.util.List;
+
 /**
  *
  * @author Richard
  */
-public interface iController {
-    void update();
+public interface iController 
+{
+    void move();
 }

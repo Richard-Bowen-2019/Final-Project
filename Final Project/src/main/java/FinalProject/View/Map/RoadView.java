@@ -14,11 +14,12 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Richard
  */
-public class Road extends JPanel{
+public class RoadView extends JPanel{
     JPanel panel;
     String type;
     
-    public Road(String type){
+    
+    public RoadView(String type){
         this.type = type;
         this.setBorder(new EmptyBorder(0, -1, 0, -1));
     }
