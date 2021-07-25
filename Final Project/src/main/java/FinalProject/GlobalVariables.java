@@ -5,23 +5,30 @@
  */
 package FinalProject;
 
+import FinalProject.Model.Vehicles.VehicleModel;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
  * @author Richard
  */
 public class GlobalVariables {
-    
+    static final int seedRate = 10;
     static final int horizontalModules = 5;
-
-   
     static final int verticalModules = 3;
     
     private GlobalVariables()
     {
+         
+    }
     
+    public static int getSeedRate() 
+    {
+        return seedRate;
     }
     
     public static Dimension getScreenSize(){

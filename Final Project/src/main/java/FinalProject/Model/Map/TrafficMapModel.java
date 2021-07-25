@@ -7,6 +7,7 @@ package FinalProject.Model.Map;
 
 import FinalProject.Controller.Map.MapController;
 import FinalProject.Controller.SimulationClock;
+import FinalProject.GlobalVariables;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +17,10 @@ import java.util.ArrayList;
 public class TrafficMapModel {
 
     private static TrafficMapModel mapInstance =null;
-    private ArrayList<ArrayList<Intersection>> map= new ArrayList<>();
-    private ArrayList<Node> entryNodes = new ArrayList<>();
-    private ArrayList<Node> exitNodes = new ArrayList<>();        
-    MapController controller = new MapController();
+    private ArrayList<ArrayList<IntersectionModel>> map= new ArrayList<>();
+    private ArrayList<VertexModel> entryNodes = new ArrayList<>();
+    private ArrayList<VertexModel> exitNodes = new ArrayList<>();        
+    
             
     private TrafficMapModel() throws InterruptedException 
     {
@@ -37,7 +38,6 @@ public class TrafficMapModel {
        return mapInstance;
     }
     
-    
     int width = 5;
     int height = 3;
     
@@ -45,11 +45,11 @@ public class TrafficMapModel {
     {
         for(int i = 0;i<height;i++)
         {
-            ArrayList<Intersection> temp = new ArrayList<>();
+            ArrayList<IntersectionModel> temp = new ArrayList<>();
             for(int j = 0;j<width;j++)
             {
                 int[] position = {j,i};
-                temp.add(new Intersection(position));
+                temp.add(new IntersectionModel(position));
             }
             map.add(temp);
         }
@@ -57,11 +57,11 @@ public class TrafficMapModel {
     
     public void resetMap()
     {
-        for(ArrayList<Intersection> alis : mapInstance.getMap())
+        for(ArrayList<IntersectionModel> alis : mapInstance.getMap())
         {
-            for(Intersection is : alis)
+            for(IntersectionModel is : alis)
             {
-                for(Node isv : is.getvertices())
+                for(VertexModel isv : is.getvertices())
                 {
                     if(isv.getParent()!=null)
                     {
@@ -81,13 +81,13 @@ public class TrafficMapModel {
             for(int j=0;j<map.get(i).size()-1;j++)
             {
                 //add horizontal edges 
-                Node source = map.get(i).get(j).getVertex("East", "Out");
-                Node destination = map.get(i).get(j+1).getVertex("West","In");
-                source.addEdge(new Edge(source,destination));
+                VertexModel source = map.get(i).get(j).getVertex("East", "Out");
+                VertexModel destination = map.get(i).get(j+1).getVertex("West","In");
+                source.addEdge(new RoadModel(source,destination));
                 
                 source = map.get(i).get(j+1).getVertex("West", "Out");
-                destination = map.get(i).get(j+1).getVertex("East","In");
-                source.addEdge(new Edge(source,destination));
+                destination = map.get(i).get(j).getVertex("East","In");
+                source.addEdge(new RoadModel(source,destination));
                 
             }
         }
@@ -96,14 +96,14 @@ public class TrafficMapModel {
             for(int j=0;j<map.get(i).size();j++)
             {
                 //add vertical edges
-                Node source = map.get(i).get(j).getVertex("South", "Out");
-                Node destination = map.get(i+1).get(j).getVertex("North","In");
-                source.addEdge(new Edge(source,destination));
+                VertexModel source = map.get(i).get(j).getVertex("South", "Out");
+                VertexModel destination = map.get(i+1).get(j).getVertex("North","In");
+                source.addEdge(new RoadModel(source,destination));
                 
                 
                 source = map.get(i+1).get(j).getVertex("North", "Out");
                 destination = map.get(i).get(j).getVertex("South","In");
-                source.addEdge(new Edge(source,destination));
+                source.addEdge(new RoadModel(source,destination));
                 
             }
         }
@@ -115,13 +115,13 @@ public class TrafficMapModel {
     
     public void assignRandomWeights()
     {
-        for(ArrayList<Intersection> am:map)
+        for(ArrayList<IntersectionModel> am:map)
         {
-            for(Intersection m : am)
+            for(IntersectionModel m : am)
             {
-                for(Node vm : m.getvertices())
+                for(VertexModel vm : m.getvertices())
                 {
-                    for(Edge e : vm.getEdges())
+                    for(RoadModel e : vm.getEdges())
                     {
                             int rand = 1 + (int)(Math.random()*10);
                             e.setWeighting(rand);
@@ -137,41 +137,41 @@ public class TrafficMapModel {
         //Horizontal 
         for(int i = 0;i<map.get(0).size();i++)
         {
-            Node vmIn = map.get(0).get(i).getVertex("North", "In");
-            vmIn.addEdge(new Edge(null,vmIn));
+            VertexModel vmIn = map.get(0).get(i).getVertex("North", "In");
+            vmIn.addEdge(new RoadModel(null,vmIn));
             entryNodes.add(vmIn);
-            Node vmOut = map.get(0).get(i).getVertex("North", "Out");
-            vmOut.addEdge(new Edge(vmOut,null));
+            VertexModel vmOut = map.get(0).get(i).getVertex("North", "Out");
+            vmOut.addEdge(new RoadModel(vmOut,null));
             exitNodes.add(vmOut);
         }
         
         for(int i = 0;i<map.get(map.size()-1).size();i++)
         {
-            Node vmIn = map.get(map.size()-1).get(i).getVertex("South", "In");
-            vmIn.addEdge(new Edge(null,vmIn));
+            VertexModel vmIn = map.get(map.size()-1).get(i).getVertex("South", "In");
+            vmIn.addEdge(new RoadModel(null,vmIn));
             entryNodes.add(vmIn);
-            Node vmOut = map.get(map.size()-1).get(i).getVertex("South", "Out");
-            vmOut.addEdge(new Edge(vmOut,null));
+            VertexModel vmOut = map.get(map.size()-1).get(i).getVertex("South", "Out");
+            vmOut.addEdge(new RoadModel(vmOut,null));
             exitNodes.add(vmOut);
         }
         //vertical
         for(int i = 0;i<map.size();i++)
         {
-            Node vmIn = map.get(i).get(0).getVertex("West", "In");
-            vmIn.addEdge(new Edge(null,vmIn));
+            VertexModel vmIn = map.get(i).get(0).getVertex("West", "In");
+            vmIn.addEdge(new RoadModel(null,vmIn));
             entryNodes.add(vmIn);
-            Node vmOut = map.get(i).get(0).getVertex("West", "Out");
-            vmOut.addEdge(new Edge(vmOut,null));
+            VertexModel vmOut = map.get(i).get(0).getVertex("West", "Out");
+            vmOut.addEdge(new RoadModel(vmOut,null));
             exitNodes.add(vmOut);
         }
         
         for(int i = 0;i<map.size();i++)
         {
-            Node vmIn = map.get(i).get(map.get(i).size()-1).getVertex("East", "In");
-            vmIn.addEdge(new Edge(null,vmIn));
+            VertexModel vmIn = map.get(i).get(map.get(i).size()-1).getVertex("East", "In");
+            vmIn.addEdge(new RoadModel(null,vmIn));
             entryNodes.add(vmIn);
-            Node vmOut = map.get(i).get(map.get(i).size()-1).getVertex("East", "Out");
-            vmOut.addEdge(new Edge(vmOut,null));
+            VertexModel vmOut = map.get(i).get(map.get(i).size()-1).getVertex("East", "Out");
+            vmOut.addEdge(new RoadModel(vmOut,null));
             exitNodes.add(vmOut);
         }
         
@@ -181,13 +181,13 @@ public class TrafficMapModel {
     public void printModel()
     {
         int count = 1;
-        for(ArrayList<Intersection> list : map)
+        for(ArrayList<IntersectionModel> list : map)
         {
-            for(Intersection m : list)
+            for(IntersectionModel m : list)
             {
                 System.out.println("Module" + count);
                 count++;
-                for(Node vm: m.getvertices())
+                for(VertexModel vm: m.getvertices())
                 {
                     System.out.print("   ");
                     vm.printVertex();
@@ -200,13 +200,13 @@ public class TrafficMapModel {
     public void printEntryNodes()
     {
         System.out.println(entryNodes.size());
-        for(Node vm:entryNodes)
+        for(VertexModel vm:entryNodes)
         {
             vm.printVertex();
         }
     }
     
-    public int[] getPosition(Node vm)
+    public int[] getPosition(VertexModel vm)
     {
         int[] position = new int[2];
         for(int i = 0; i < map.size();i++)
@@ -223,27 +223,27 @@ public class TrafficMapModel {
         return position; 
     }
     
-    public ArrayList<Node> getEntryNodes() {
+    public ArrayList<VertexModel> getEntryNodes() {
         return entryNodes;
     }
 
-    public ArrayList<Node> getExitNodes() {
+    public ArrayList<VertexModel> getExitNodes() {
         return exitNodes;
     }
     
-    public ArrayList<ArrayList<Intersection>> getMap(){
+    public ArrayList<ArrayList<IntersectionModel>> getMap(){
             return map;
     }
     
-    public Intersection getModule(Node vm)
+    public IntersectionModel getModule(VertexModel vm)
     {
         int[] position = getPosition(vm); 
         return map.get(position[0]).get(position[1]);
     }
     
-    public void printList(ArrayList<Node> vm)
+    public void printList(ArrayList<VertexModel> vm)
     {
-        for (Node v: vm)
+        for (VertexModel v: vm)
         {
             v.printVertex();
         }

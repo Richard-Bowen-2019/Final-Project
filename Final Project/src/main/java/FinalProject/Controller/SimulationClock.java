@@ -6,19 +6,11 @@
 package FinalProject.Controller;
 
 
-import FinalProject.Controller.Vehicle.VehicleController;
-import FinalProject.Model.Map.TrafficMapModel;
-import java.awt.List;
-import java.util.ArrayList;
+import FinalProject.GlobalVariables;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
-
-
 
 /**
  *
@@ -27,60 +19,54 @@ import java.util.logging.Logger;
 public class SimulationClock {
    private static SimulationClock clock = null;
     boolean running;
-    int n=0;
     Timer timer;
+    Controller controller;
     int counter = 0;
-    VehicleController controller;
-   
-    private SimulationClock() throws InterruptedException {
+    
+    private SimulationClock() throws InterruptedException 
+    {
         
         start();
-        TimerTask timerTask = new TimerTask() {
+        int seedRate = GlobalVariables.getSeedRate();
+        controller = new Controller();
+        TimerTask timerTask = new TimerTask() 
+        {
             @Override
             public void run() {
                 // System.out.println("TimerTask executing counter is: " + counter);
-                
             }
         };
 
-        //create thread to print counter value
         Thread t = new Thread(new Runnable() 
         {
             @Override
             public void run() 
             {
-                try {
-                    createNewVehicle();
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SimulationClock.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                while(true) 
+                try 
                 {
-                    try 
+                    while(true) 
                     {
-                        if(counter%10==0||controller==null)
+                    
+                        if(counter%seedRate==0)
                         {
-                            createNewVehicle();
+                            controller.createNewVehicle();
                         }
                         else
                         {
-                            update();
+                            controller.update();
                         }
                         Thread.sleep(1000);
-                    } 
-                    catch (InterruptedException ex) 
-                    {
-                        ex.printStackTrace();
-                    }
-                    counter++;
+                        counter++; 
+                    }    
+                } 
+                catch (InterruptedException ex) 
+                {
+                    Logger.getLogger(SimulationClock.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-
         timer = new Timer();
         timer.scheduleAtFixedRate(timerTask, 30, 3000);//start timer in 30ms to increment  counter
-        
-        
         t.start();//start thread to display counter
     }
     
@@ -90,22 +76,6 @@ public class SimulationClock {
             clock = new SimulationClock();
         }
         return clock;
-    }
-    public void createNewVehicle() throws InterruptedException
-    {
-        if(controller==null)
-        {
-            controller = new VehicleController();
-        }
-        else
-        {
-            controller.seedVehicle();
-        }
-    }
-    
-    public void update()
-    {
-        controller.update();
     }
     
     public void start()

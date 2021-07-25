@@ -5,9 +5,9 @@
  */
 package FinalProject.Controller.Map;
 
-import FinalProject.Model.Map.Edge;
+import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.TrafficMapModel;
-import FinalProject.Model.Map.Node;
+import FinalProject.Model.Map.VertexModel;
 import static java.lang.Math.sqrt;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -30,14 +30,14 @@ public RoutePlanner() throws InterruptedException
     tmp = TrafficMapModel.getMapInstance();
 }
 
-public LinkedList<Node> getRoute()
+public LinkedList<VertexModel> getRoute()
 {
     //tmp.resetMap();
-    Node start = startPoint();
+    VertexModel start = startPoint();
     //System.out.println("Start: "+ start.getLabel() + " - "+start.getType() + " " + start.getModuleNumber());
-    Node end = endPoint();
+    VertexModel end = endPoint();
     //System.out.println("End: "+ end.getLabel() + " - " + end.getType() + " " + end.getModuleNumber());
-    LinkedList<Node> aStar = aStar(start,end);
+    LinkedList<VertexModel> aStar = aStar(start,end);
     //printList(aStar);
     return aStar;
 }
@@ -48,29 +48,29 @@ public int randomNode(int start,int end)
     return r;
 }
 
-public Node startPoint()
+public VertexModel startPoint()
 {
     int startPoint = randomNode(0,tmp.getEntryNodes().size()-1);
     return tmp.getEntryNodes().get(startPoint);
 }
 
-public Node endPoint()
+public VertexModel endPoint()
 {
     int endPoint = randomNode(0,tmp.getExitNodes().size()-1);
     return tmp.getExitNodes().get(endPoint);
 }
 
-public void printList(List<Node> avm)
+public void printList(List<VertexModel> avm)
 {
-    for(Node vm:avm)
+    for(VertexModel vm:avm)
     {
         //System.out.println("Vertex: " + vm.getLabel()+" , "+vm.getType() + " , Module: "+ vm.getModuleNumber());
     }
 }
    
-public LinkedList<Node> createRoute(Node start, Node endPoint)
+public LinkedList<VertexModel> createRoute(VertexModel start, VertexModel endPoint)
 {
-        LinkedList<Node> bestRoute = new LinkedList<>();
+        LinkedList<VertexModel> bestRoute = new LinkedList<>();
         while(endPoint.getParent() != null)
         {
             bestRoute.add(endPoint);
@@ -82,66 +82,59 @@ public LinkedList<Node> createRoute(Node start, Node endPoint)
         
     }
     
-    public LinkedList<Node> aStar (Node start, Node end)
+    public LinkedList<VertexModel> aStar (VertexModel start, VertexModel end)
     {
-        PriorityQueue<Node> closed = new PriorityQueue<>();
-        PriorityQueue<Node> open = new PriorityQueue<>();
-        
-        start.totalCost = start.remainingCost + heuristic(start,end);
+        PriorityQueue<VertexModel> closed = new PriorityQueue<>();
+        PriorityQueue<VertexModel> open = new PriorityQueue<>();
+        System.out.print("Start and end points");
+        start.printVertex();
+        end.printVertex();
+        System.out.println();
+        start.setTotalCost(heuristic(start,end));
+        start.setRemainingCost(0);
         
         open.add(start);
 
-        while(!open.isEmpty())
+        while(open.peek()!=end)
         {
-            Node currentVertex = open.peek();
-            System.out.println("Current Vertex");
-            currentVertex.printVertex();
-            if(currentVertex == end)
-            {
-                return createRoute(start,end);
-            }
+            VertexModel currentVertex = open.peek();
+            closed.add(currentVertex);
             
-                for(Edge rd : currentVertex.getEdges())
+            for(RoadModel rd : currentVertex.getEdges())
+            {
+                if(!(rd.getSource()==null||rd.getDestination()==null))
                 {
-                    Node nextVertex = rd.getDestination();
-                    System.out.println("Next Vertex");
-                    nextVertex.printVertex();
-                    double totalCost = currentVertex.remainingCost + rd.getWeighting();
-
-                    if(nextVertex!=null)
+                    VertexModel nextVertex = rd.getDestination();
+                    nextVertex.setRemainingCost(currentVertex.getRemainingCost() + rd.getWeighting());
+                    nextVertex.setTotalCost(nextVertex.getRemainingCost() + heuristic(nextVertex,end));
+                    
+                    if(!open.contains(nextVertex) && !closed.contains(nextVertex))
                     {
-                        if(!open.contains(nextVertex) && !closed.contains(nextVertex))
+                        nextVertex.setParent(currentVertex);
+                        open.add(nextVertex);
+                    }
+                    else 
+                    {
+                        if(nextVertex.getTotalCost() < currentVertex.getTotalCost())
                         {
-                                nextVertex.setParent(currentVertex);
-                                nextVertex.remainingCost = totalCost;
-                                nextVertex.totalCost = nextVertex.remainingCost + heuristic(nextVertex, end);
-                                open.add(nextVertex);
-                        } 
-                        else 
-                        {
-                            if(totalCost < nextVertex.remainingCost)
+                            nextVertex.setParent(currentVertex);
+                            if(closed.contains(nextVertex))
                             {
-                                nextVertex.setParent(currentVertex);
-                                nextVertex.remainingCost = totalCost;
-                                nextVertex.totalCost = nextVertex.remainingCost + heuristic(nextVertex, end);
-
-                                if(closed.contains(nextVertex))
-                                {
-                                        closed.remove(nextVertex);
-                                        open.add(nextVertex);
-                                }
+                                closed.remove(nextVertex);
+                                open.add(nextVertex);
                             }
                         }
                     }
                 }
-                
+            }
             open.remove(currentVertex);
             closed.add(currentVertex);
         }
+        
         return createRoute(start, end);
     }
 
-    public double heuristic(Node start,Node end)
+    public double heuristic(VertexModel start,VertexModel end)
     {
         int[] startPosition = new int[2];
         int[] endPosition = new int[2];

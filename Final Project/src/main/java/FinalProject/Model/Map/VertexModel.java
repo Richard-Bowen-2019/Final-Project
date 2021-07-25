@@ -13,8 +13,8 @@ import java.util.HashMap;
  *
  * @author Richard
  */
-public class Node implements Comparable<Node>{
-    private ArrayList<Edge> edges = new ArrayList<>();
+public class VertexModel implements Comparable<VertexModel>{
+    private ArrayList<RoadModel> edges = new ArrayList<>();
     String type;
     String label;
     int[] position;
@@ -22,11 +22,12 @@ public class Node implements Comparable<Node>{
     int y = 0;
     
     HashMap<String,int[]> vertices = new HashMap<>();
-    private Node parent=null;
+    private VertexModel parent=null;
     public double totalCost = 0;
     public double remainingCost = 0;
+
     
-    public Node(String label, String type, int[] position) 
+    public VertexModel(String label, String type, int[] position) 
     {
         this.label = label;
         this.type = type;
@@ -57,15 +58,31 @@ public class Node implements Comparable<Node>{
         this.y = vertices.get(key)[1] + position[1]*12;
     }
     
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public void setRemainingCost(double remainingCost) {
+        this.remainingCost = remainingCost;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public double getRemainingCost() {
+        return remainingCost;
+    }
+    
     public int[] getXandY() {
         int[] xy = {this.x,this.y};
         return xy;
     }
     
-    public ArrayList<Edge> getInRoads()
+    public ArrayList<RoadModel> getInRoads()
     {
-        ArrayList<Edge> roads = new ArrayList<>();
-        for(Edge e :edges)
+        ArrayList<RoadModel> roads = new ArrayList<>();
+        for(RoadModel e :edges)
         {
             if(e.getSource()==null)
             {
@@ -75,10 +92,10 @@ public class Node implements Comparable<Node>{
         return roads;
     }
     
-    public ArrayList<Edge> getOutRoads()
+    public ArrayList<RoadModel> getOutRoads()
     {
-        ArrayList<Edge> roads = new ArrayList<>();
-        for(Edge e :edges)
+        ArrayList<RoadModel> roads = new ArrayList<>();
+        for(RoadModel e :edges)
         {
             if(e.getDestination()==null)
             {
@@ -112,18 +129,18 @@ public class Node implements Comparable<Node>{
         }
     }
     
-    public void addEdge(Edge edge){
+    public void addEdge(RoadModel edge){
         this.edges.add(edge);
     }
     
-    public ArrayList<Edge> getEdges(){
+    public ArrayList<RoadModel> getEdges(){
         return edges;
     }
     
     public void printVertex()
     {
         System.out.println("Node: " + label + ", Type: " + type + ", Module: " + position[0]+":" + position[1]);
-        /*for(Edge e : edges)
+        /*for(RoadModel e : edges)
         {
             System.out.print("     ");
             e.printEdge();
@@ -131,9 +148,9 @@ public class Node implements Comparable<Node>{
         System.out.println();*/
     }
     
-    public Edge getIn()
+    public RoadModel getIn()
     {
-        for(Edge r : edges)
+        for(RoadModel r : edges)
         {
             if(r.getSource()==null)
             {
@@ -143,9 +160,9 @@ public class Node implements Comparable<Node>{
         return null;
     }
     
-    public Edge getOut()
+    public RoadModel getOut()
     {
-        for(Edge r : edges)
+        for(RoadModel r : edges)
         {
             if(r.getSource()!=null)
             {
@@ -158,7 +175,7 @@ public class Node implements Comparable<Node>{
     
     public boolean containsIn()
     {
-        for(Edge e: edges)
+        for(RoadModel e: edges)
         {
             if(e.getSource()==null)
             {
@@ -168,8 +185,8 @@ public class Node implements Comparable<Node>{
         return false;
     }
     
-    public Edge getRoad(Node source,Node destination) {
-        for(Edge e: this.getEdges())
+    public RoadModel getRoad(VertexModel source,VertexModel destination) {
+        for(RoadModel e: this.getEdges())
         {
             if(e.getSource()==source && e.getDestination()==destination)
             {
@@ -179,18 +196,18 @@ public class Node implements Comparable<Node>{
         return null;
     }
     
-    public void setParent(Node parent)
+    public void setParent(VertexModel parent)
     {
         this.parent=parent;
     }
     
-    public Node getParent()
+    public VertexModel getParent()
     {
         return parent;
     }
 
     @Override
-    public int compareTo(Node o) {
+    public int compareTo(VertexModel o) {
          return Double.compare(this.totalCost, o.totalCost);
     }
 

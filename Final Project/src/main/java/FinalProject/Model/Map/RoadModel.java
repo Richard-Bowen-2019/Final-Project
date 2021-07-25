@@ -5,6 +5,7 @@
  */
 package FinalProject.Model.Map;
 
+import FinalProject.Model.Vehicles.VehicleModel;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -12,65 +13,71 @@ import java.util.PriorityQueue;
  *
  * @author Richard
  */
-public class Edge {
+public class RoadModel {
     int weighting;
-    int[] slots;
-    Node source;
-    Node destination;
+    VehicleModel[] vehicles;
+    VertexModel source;
+    VertexModel destination;
     
-    public Edge(Node source,Node destination)
+    public RoadModel(VertexModel source,VertexModel destination)
     {
         this.weighting = 0;
         
         if(source==null||destination==null||(source.getType()=="Out"||destination.getType()=="In"))
         {
-            slots = new int[10];
+            vehicles = new VehicleModel[10];
             initiateSlots(10);
         }
         else
         {
-            slots = new int[2];
+            vehicles = new VehicleModel[2];
             initiateSlots(2);
         }
         this.source = source;
         this.destination = destination;
     }
     
-    public Node getSource() {
+    public VertexModel getSource() {
         return source;
     }
     
-    public int getSlot(int s)
+    public int getSlot(VehicleModel vhl)
     {
-        return slots[s];
+        int temp = 15;
+        for(int i = 0;i<vehicles.length;i++)
+        {
+            if(vehicles[i]==vhl)
+            {
+                return i;
+            }
+        }
+        return temp;
     }
     
     public void vacateSlot(int slot)
     {
-        slots[slot]=0;
+        vehicles[slot]=null;
     }
 
-    public void occupySlot(int slot)
+    public void occupySlot(int i, VehicleModel v)
     {
-           slots[slot]=1;
+           vehicles[i]=v;
            weighting++;
     }
     
     public int getSlotSize()
     {
-        return slots.length;
+        return vehicles.length;
     }
     
     private void initiateSlots(int n){
         for(int i = 0;i<n;i++)
         {
-            slots[i]=0;
+            vehicles[i]=null;
         }
     }
     
-    
-    
-    public Node getDestination(){
+    public VertexModel getDestination(){
         return destination;
     }
     
@@ -89,7 +96,7 @@ public class Edge {
       return weighting;
     }
     
-    public boolean nullCheck(Node vm)
+    public boolean nullCheck(VertexModel vm)
     {
         try
         {
@@ -107,28 +114,25 @@ public class Edge {
     
     public void printEdge()
     {
-        
-        
         if(this.source!=null)
         {
             System.out.print("Source Edge: " + this.source.getLabel());
             System.out.print("-" + this.source.getType());
             System.out.print("-Module " + source.position[0] + ":" + source.position[1]);
-            
         }
         else 
         {
-            System.out.print("Source Edge: None");
+            System.out.print("Source Edge: None                   ");
         }
         if(this.destination!=null)
         {
             System.out.print(" to Destination Edge: " + this.destination.getLabel());
             System.out.print("-" + this.destination.getType());
-            System.out.println("-Module  " + destination.position[0] + ":" + destination.position[1]);
+            System.out.print("-Module  " + destination.position[0] + ":" + destination.position[1]);
         }
         else 
         {
-            System.out.print(" to Destination: None");
+            System.out.print(" to Destination: None                  ");
             
         }
         
