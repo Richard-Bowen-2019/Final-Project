@@ -5,10 +5,14 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Controller.Map.MapController;
+import FinalProject.Controller.Vehicle.MapController;
 import FinalProject.Controller.SimulationClock;
 import FinalProject.GlobalVariables;
+import FinalProject.View.Map.ModuleView;
+import FinalProject.View.Map.RoadViewInterface;
+import FinalProject.View.Map.TrafficMapView;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -21,7 +25,6 @@ public class TrafficMapModel {
     private ArrayList<VertexModel> entryNodes = new ArrayList<>();
     private ArrayList<VertexModel> exitNodes = new ArrayList<>();        
     
-            
     private TrafficMapModel() throws InterruptedException 
     {
         createMap();
@@ -38,8 +41,8 @@ public class TrafficMapModel {
        return mapInstance;
     }
     
-    int width = 5;
-    int height = 3;
+    int width = GlobalVariables.getHorizontalModules();
+    int height = GlobalVariables.getVerticalModules();
     
     private void createMap()
     {
@@ -48,13 +51,14 @@ public class TrafficMapModel {
             ArrayList<IntersectionModel> temp = new ArrayList<>();
             for(int j = 0;j<width;j++)
             {
-                int[] position = {j,i};
+                int[] position = {i,j};
                 temp.add(new IntersectionModel(position));
             }
             map.add(temp);
         }
     }       
     
+    //This method resets the parent of all nodes to null after a route has been planned.
     public void resetMap()
     {
         for(ArrayList<IntersectionModel> alis : mapInstance.getMap())
@@ -71,8 +75,6 @@ public class TrafficMapModel {
             }
         }
     }
-    
-    
     
     private void connectMap()
     {
@@ -105,29 +107,6 @@ public class TrafficMapModel {
                 destination = map.get(i).get(j).getVertex("South","In");
                 source.addEdge(new RoadModel(source,destination));
                 
-            }
-        }
-    }
-    public void updateMapStatus()
-    {
-        System.out.println("Map updated");
-    }
-    
-    public void assignRandomWeights()
-    {
-        for(ArrayList<IntersectionModel> am:map)
-        {
-            for(IntersectionModel m : am)
-            {
-                for(VertexModel vm : m.getvertices())
-                {
-                    for(RoadModel e : vm.getEdges())
-                    {
-                            int rand = 1 + (int)(Math.random()*10);
-                            e.setWeighting(rand);
-                    }
-                }
-                    
             }
         }
     }
@@ -206,7 +185,7 @@ public class TrafficMapModel {
         }
     }
     
-    public int[] getPosition(VertexModel vm)
+    public int[] getModulePositionFromVertexModel(VertexModel vm)
     {
         int[] position = new int[2];
         for(int i = 0; i < map.size();i++)
@@ -223,6 +202,11 @@ public class TrafficMapModel {
         return position; 
     }
     
+    public IntersectionModel getModuleByPosition(int[] position)
+    {
+        return map.get(position[0]).get(position[1]);
+    }
+    
     public ArrayList<VertexModel> getEntryNodes() {
         return entryNodes;
     }
@@ -235,10 +219,10 @@ public class TrafficMapModel {
             return map;
     }
     
-    public IntersectionModel getModule(VertexModel vm)
+    public IntersectionModel getModuleFromVertex(VertexModel vm)
     {
-        int[] position = getPosition(vm); 
-        return map.get(position[0]).get(position[1]);
+        int[] position = getModulePositionFromVertexModel(vm); 
+        return map.get(position[1]).get(position[0]);
     }
     
     public void printList(ArrayList<VertexModel> vm)

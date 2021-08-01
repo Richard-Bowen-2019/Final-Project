@@ -19,12 +19,13 @@ import java.util.List;
  * @author Richard
  */
 public class VanModel extends VehicleModel{
-
+    
     public VanModel(List<VertexModel> route) throws InterruptedException
     {
+        this.vehicleNumber = vehicleNumber++;
         this.size = 1;
         controller = new VehicleController(new VanController(route, this));
-        view = new VanView();
+        //view = new VanView();
         this.size = 2;
     }
 

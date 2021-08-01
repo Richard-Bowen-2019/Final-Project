@@ -5,6 +5,7 @@
  */
 package FinalProject.Controller.Vehicle;
 
+import FinalProject.Controller.Controller;
 import FinalProject.Controller.iController;
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.VertexModel;
@@ -20,8 +21,11 @@ public class TruckController extends aVehicle implements iController{
     public TruckController(List<VertexModel> route, VehicleModel current)throws InterruptedException
     {
         this.route = route;
-        setUpFirst();
         this.currentVehicle = current;
+        this.mainController = Controller.getControllerInstance();
+        
+        setUpFirst();
+        
     }
     
     public void setUpFirst()
@@ -55,54 +59,59 @@ public class TruckController extends aVehicle implements iController{
     
     
     
-    public void move(int i) 
+    @Override
+    public void move() 
     {
-        if(mainController.vehicleListEmpty())
+        if(!mainController.vehicleListEmpty())
         {
-            if(currentSlot<currentSlotSize)
+            if(currentSlot<currentVehicle.getSize())
             {
-                if(currentSlot==0)
+                if(previousSlot<previousSlotSize)
                 {
-                    currentRoad.occupySlot(0,currentVehicle);
-                    currentSlot++;
+                    previousRoad.vacateSlot(previousSlot);
+                    previousSlot++;
                 }
-                else
-                {
-                    currentRoad.occupySlot(currentSlot, currentVehicle);
-                    currentRoad.vacateSlot(currentSlot-1);
-                    currentSlot++;
-                }
+                currentRoad.occupySlot(currentSlot,currentVehicle);
+                currentSlot++;
+                System.out.print("Truck Number: " + vehicleNumber + "  ");
+                currentRoad.printEdge();
+                System.out.println("   Slot: " + currentSlot);
             }
             else
             {
-                if(route.size()==1)
+                if(currentSlot + currentVehicle.getSize() - 1 < currentSlotSize)
                 {
-                    setUpLast();
-                }
-                else if (route.size()==0)
-                {
-                    
-                    mainController.removeVehicle(currentVehicle);
+                    currentRoad.occupySlot(currentSlot, currentVehicle);
+                    currentRoad.vacateSlot(currentSlot-currentVehicle.getSize());
+                    currentSlot++;
                 }
                 else
                 {
-                    setUpNext();
+                    if(route.size()==1)
+                    {
+                        setUpLast();
+                    }
+                    else if (route.size()==0)
+                    {
+                        mainController.removeVehicle(currentVehicle);
+                    }
+                    else
+                    {
+                        setUpNext();
+                    }
                 }
+                System.out.print("Truck Number: " + vehicleNumber + "  ");
+                currentRoad.printEdge();
+                System.out.println("   Slot: " + currentSlot);
             }
-            System.out.print("Vehicle Number: " + i + " ");
-            currentRoad.printEdge();
-            System.out.println("Slot: " + currentSlot);
-        }
+        }     
         else
         {
             System.out.println("No Current vehicles");
         }
     }
 
-    @Override
-    public void move() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }
 
 

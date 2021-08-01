@@ -6,12 +6,13 @@
 package FinalProject.Model.Vehicles;
 
 import FinalProject.Controller.Controller;
-import FinalProject.Controller.Map.MapController;
+import FinalProject.Controller.Vehicle.MapController;
 import FinalProject.Controller.Vehicle.VehicleController;
 import FinalProject.Controller.iController;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.View.Vehicles.VehicleView;
 import java.util.List;
+import FinalProject.View.Vehicles.VehicleViewInterface;
 
 /**
  *
@@ -19,11 +20,11 @@ import java.util.List;
  */
 public abstract class VehicleModel {
     protected int size;
-    protected VehicleView view;
+    protected VehicleViewInterface view;
     protected VehicleController controller;
-    protected MapController mController;
+    protected int vehicleNumber;
     
-    public VehicleView getView() 
+    public VehicleViewInterface getView() 
     {
         return view;
     }
@@ -33,10 +34,10 @@ public abstract class VehicleModel {
         return controller;
     }
     
-    public void setSize(int size) {
-        this.size = size;
+    public int getVehicleNumber() {
+        return vehicleNumber;
     }
-
+    
     public int getSize() {
         return size;
     }

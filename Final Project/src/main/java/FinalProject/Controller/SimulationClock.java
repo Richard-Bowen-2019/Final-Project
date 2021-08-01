@@ -7,6 +7,8 @@ package FinalProject.Controller;
 
 
 import FinalProject.GlobalVariables;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -22,17 +24,17 @@ public class SimulationClock {
     Timer timer;
     Controller controller;
     int counter = 0;
-    
     private SimulationClock() throws InterruptedException 
     {
         
         start();
         int seedRate = GlobalVariables.getSeedRate();
-        controller = new Controller();
+        controller = Controller.getControllerInstance();        
         TimerTask timerTask = new TimerTask() 
         {
             @Override
-            public void run() {
+            public void run() 
+            {
                 // System.out.println("TimerTask executing counter is: " + counter);
             }
         };
@@ -50,6 +52,7 @@ public class SimulationClock {
                         if(counter%seedRate==0)
                         {
                             controller.createNewVehicle();
+                            
                         }
                         else
                         {
@@ -60,6 +63,13 @@ public class SimulationClock {
                     }    
                 } 
                 catch (InterruptedException ex) 
+                {
+                    Logger.getLogger(SimulationClock.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(SimulationClock.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (URISyntaxException ex) 
                 {
                     Logger.getLogger(SimulationClock.class.getName()).log(Level.SEVERE, null, ex);
                 }

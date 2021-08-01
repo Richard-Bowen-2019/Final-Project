@@ -5,11 +5,14 @@
  */
 package FinalProject.Controller;
 
-import FinalProject.Controller.Map.RoutePlanner;
+import FinalProject.Controller.Vehicle.RoutePlanner;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Vehicles.VehicleModel;
 import FinalProject.Model.Vehicles.VehicleFactory;
+import FinalProject.View.Map.TrafficMapView;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,27 +22,38 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Richard
  */
 public class Controller {
-    TrafficMapModel tmp;
+    private static Controller mainController = null;
+    TrafficMapModel mapModel;
+    TrafficMapView mapView;
     protected RoutePlanner planner = new RoutePlanner();
     public List<VehicleModel> vehicles = new CopyOnWriteArrayList<>();
-    List<VertexModel> aStar;
     
-    public Controller() throws InterruptedException
+    private Controller() throws InterruptedException 
     {
-        tmp = TrafficMapModel.getMapInstance();
+        mapModel = TrafficMapModel.getMapInstance();
+        mapView = TrafficMapView.getInstance();
+    }
+    
+    public static Controller getControllerInstance() throws InterruptedException
+    {
+        if(mainController==null)
+        {
+            mainController = new Controller();
+        }
+        return mainController;
     }
     
     public void update()
     {
-        Iterator<VehicleModel> it = vehicles.iterator(); 
+        /*Iterator<VehicleModel> it = vehicles.iterator(); 
         
         while (it.hasNext()) 
         {
             it.next().getController().moveVehicle();
-        }
+        }*/
     }
     
-    public void createNewVehicle() throws InterruptedException
+    public void createNewVehicle() throws InterruptedException, IOException, URISyntaxException
     {
         VehicleModel newVehicle;
         VehicleFactory factory = new VehicleFactory();
@@ -51,13 +65,13 @@ public class Controller {
     {
         VertexModel start = startPoint();
         VertexModel end = endPoint();
-        aStar = planner.aStar(start, end);
+        List<VertexModel> aStar = planner.aStar(start, end);
         return aStar;
     }
     
     public boolean vehicleListEmpty()
     {
-        return vehicles.size()==0;
+        return vehicles.isEmpty();
     }
 
     public int vehicleListSize()
@@ -84,13 +98,13 @@ public class Controller {
     public VertexModel startPoint()
     {
 
-        int startPoint = randomNode(0,tmp.getEntryNodes().size()-1);
-        return tmp.getEntryNodes().get(startPoint);
+        int startPoint = randomNode(0,mapModel.getEntryNodes().size()-1);
+        return mapModel.getEntryNodes().get(startPoint);
     }
 
     public VertexModel endPoint()
     {
-        int endPoint = randomNode(0,tmp.getExitNodes().size()-1);
-        return tmp.getExitNodes().get(endPoint);
+        int endPoint = randomNode(0,mapModel.getExitNodes().size()-1);
+        return mapModel.getExitNodes().get(endPoint);
     }
 }

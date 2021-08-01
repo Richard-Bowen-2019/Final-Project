@@ -6,6 +6,9 @@
 package FinalProject.Model.Map;
 
 import FinalProject.Model.Vehicles.VehicleModel;
+import FinalProject.View.Map.HorizontalRoadView;
+import FinalProject.View.Map.RoadViewInterface;
+import FinalProject.View.Map.VerticalRoadView;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -14,10 +17,11 @@ import java.util.PriorityQueue;
  * @author Richard
  */
 public class RoadModel {
-    int weighting;
-    VehicleModel[] vehicles;
-    VertexModel source;
-    VertexModel destination;
+    private int weighting;
+    private VehicleModel[] vehicles;
+    private VertexModel source;
+    private VertexModel destination;
+    private RoadViewInterface rvi;
     
     public RoadModel(VertexModel source,VertexModel destination)
     {
@@ -32,9 +36,15 @@ public class RoadModel {
         {
             vehicles = new VehicleModel[2];
             initiateSlots(2);
+            
         }
         this.source = source;
         this.destination = destination;
+    }
+    
+    public RoadViewInterface getInterface()
+    {
+        return rvi;
     }
     
     public VertexModel getSource() {
@@ -86,31 +96,10 @@ public class RoadModel {
         weighting++;
     }
 
-    public void setWeighting(int w)
-    {
-        weighting = w;
-    }
-    
     public int getWeighting()
     {
       return weighting;
     }
-    
-    public boolean nullCheck(VertexModel vm)
-    {
-        try
-        {
-            vm.getLabel();
-            vm.getType();
-            return true;
-        }
-        catch(NullPointerException e)
-        {
-            return false;
-        }
-    }
-    
-    
     
     public void printEdge()
     {
@@ -118,7 +107,7 @@ public class RoadModel {
         {
             System.out.print("Source Edge: " + this.source.getLabel());
             System.out.print("-" + this.source.getType());
-            System.out.print("-Module " + source.position[0] + ":" + source.position[1]);
+            System.out.print("-Module " + source.getPosition()[0] + ":" + source.getPosition()[1]);
         }
         else 
         {
@@ -126,16 +115,15 @@ public class RoadModel {
         }
         if(this.destination!=null)
         {
-            System.out.print(" to Destination Edge: " + this.destination.getLabel());
+            System.out.print("to Destination Edge: " + this.destination.getLabel());
             System.out.print("-" + this.destination.getType());
-            System.out.print("-Module  " + destination.position[0] + ":" + destination.position[1]);
+            System.out.print("-Module  " + destination.getPosition()[0] + ":" + destination.getPosition()[1]);
         }
         else 
         {
-            System.out.print(" to Destination: None                  ");
+            System.out.print("to Destination: None                  ");
             
         }
         
     }
-            
 }

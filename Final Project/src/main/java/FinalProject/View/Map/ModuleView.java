@@ -6,9 +6,9 @@
 package FinalProject.View.Map;
 
 import FinalProject.GlobalVariables;
+import FinalProject.Model.Map.TrafficMapModel;
 import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import java.util.HashMap;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -19,35 +19,50 @@ import javax.swing.border.EmptyBorder;
 public class ModuleView extends JPanel{
     int xCoord;
     int yCoord;
-
+    TrafficMapModel model;
+    RoadViewInterface north = new VerticalRoadView();
+    RoadViewInterface west = new HorizontalRoadView();
+    RoadViewInterface intersection = new IntersectionRoadView();
+    RoadViewInterface east = new HorizontalRoadView();
+    RoadViewInterface south = new VerticalRoadView();
     
+    HashMap<String,RoadViewInterface> roads = new HashMap<>();
     
     public ModuleView(int x, int y){
+        addJPanels();
+        addRoads();
         this.xCoord = x;
         this.yCoord =y;
         this.setLayout(new GridLayout(3,3));  
-        this.setSize(GlobalVariables.getModuleWidths(),GlobalVariables.getModuleHeights());
-        this.setBorder(new EmptyBorder(0, -1, 0, -1));
-        JPanel b1 = new RoadView("Blank");  
-        JPanel b2= new RoadView("Vertical");  
-        JPanel b3= new RoadView("Blank");  
-        JPanel b4= new RoadView("Horizontal");  
-        JPanel b5= new RoadView("Intersection");  
-        JPanel b6= new RoadView("Horizontal");  
-        JPanel b7= new RoadView("Blank");  
-        JPanel b8= new RoadView("Vertical");  
-        JPanel b9= new RoadView("Blank");  
-
-        this.add(b1);
-        this.add(b2);
-        this.add(b3);
-        this.add(b4);
-        this.add(b5);  
-        this.add(b6);
-        this.add(b7);
-        this.add(b8);
-        this.add(b9);  
-       
+        this.setBorder(new EmptyBorder(-2, -2,-2, -2));
+    }
+    
+    private void addJPanels()
+    {
+        this.add(new Blank());
+        this.add((JPanel)north);
+        this.add(new Blank());
+        this.add((JPanel)west);
+        this.add((JPanel)intersection);
+        this.add((JPanel)east);
+        this.add(new Blank());
+        this.add((JPanel)south);
+        this.add(new Blank());
+    }
+    
+    private void addRoads()
+    {
+        
+        roads.put("North",north);
+        roads.put("West",west);
+        roads.put("Intersection",intersection);
+        roads.put("East",east);
+        roads.put("South",south);
+    }
+    
+    public RoadViewInterface getRoad(String road)
+    {
+        return roads.get(road);
     }
     
     public int getxCoord() {
@@ -56,5 +71,5 @@ public class ModuleView extends JPanel{
 
     public int getyCoord() {
         return yCoord;
-    }
+    }    
 }

@@ -8,6 +8,7 @@ package FinalProject.Model.Map;
 import FinalProject.GlobalVariables;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -15,13 +16,14 @@ import java.util.HashMap;
  */
 public class VertexModel implements Comparable<VertexModel>{
     private ArrayList<RoadModel> edges = new ArrayList<>();
-    String type;
-    String label;
-    int[] position;
-    int x = 0;
-    int y = 0;
+    private String type;
+    private String label;
+    private int[] position;
+
     
-    HashMap<String,int[]> vertices = new HashMap<>();
+    private int x = 0;
+    private int y = 0;
+    private HashMap<String,int[]> vertices = new HashMap<>();
     private VertexModel parent=null;
     public double totalCost = 0;
     public double remainingCost = 0;
@@ -35,7 +37,7 @@ public class VertexModel implements Comparable<VertexModel>{
         setXandY();
     }
     
-    public void setXandY()
+    private void setXandY()
     {
         int[] northIn = {7,4};
         int[] northOut = {5,4};
@@ -79,7 +81,7 @@ public class VertexModel implements Comparable<VertexModel>{
         return xy;
     }
     
-    public ArrayList<RoadModel> getInRoads()
+    public List<RoadModel> getInRoads()
     {
         ArrayList<RoadModel> roads = new ArrayList<>();
         for(RoadModel e :edges)
@@ -92,7 +94,7 @@ public class VertexModel implements Comparable<VertexModel>{
         return roads;
     }
     
-    public ArrayList<RoadModel> getOutRoads()
+    public List<RoadModel> getOutRoads()
     {
         ArrayList<RoadModel> roads = new ArrayList<>();
         for(RoadModel e :edges)
@@ -135,6 +137,10 @@ public class VertexModel implements Comparable<VertexModel>{
     
     public ArrayList<RoadModel> getEdges(){
         return edges;
+    }
+    
+    public int[] getPosition() {
+        return position;
     }
     
     public void printVertex()

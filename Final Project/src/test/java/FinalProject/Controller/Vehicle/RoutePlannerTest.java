@@ -5,7 +5,6 @@
  */
 package FinalProject.Controller.Vehicle;
 
-import FinalProject.Controller.Map.RoutePlanner;
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.IntersectionModel;
 import FinalProject.Model.Map.VertexModel;

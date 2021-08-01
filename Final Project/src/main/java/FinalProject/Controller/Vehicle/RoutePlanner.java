@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.Controller.Map;
+package FinalProject.Controller.Vehicle;
 
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.TrafficMapModel;

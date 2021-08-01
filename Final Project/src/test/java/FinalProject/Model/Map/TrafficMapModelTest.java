@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Controller.Map.RoutePlanner;
+import FinalProject.Controller.Vehicle.RoutePlanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.After;
@@ -104,14 +104,14 @@ public class TrafficMapModelTest {
     
     
     /**
-     * Test of getPosition method, of class TrafficMapModel.
+     * Test of getModulePositionFromVertexModel method, of class TrafficMapModel.
      */
     @Test
     public void testGetPosition() {
-        //System.out.println("getPosition");
+        //System.out.println("getModulePositionFromVertexModel");
         VertexModel vm = model.getMap().get(0).get(0).getVertex("North","In");
         int[] expResult = {0,0};
-        int[] result = model.getPosition(vm);
+        int[] result = model.getModulePositionFromVertexModel(vm);
         assertArrayEquals(expResult, result);
     }
 
@@ -186,14 +186,14 @@ public class TrafficMapModelTest {
     }
 
     /**
-     * Test of getModule method, of class TrafficMapModel.
+     * Test of getModulePositionFromVertexModel method, of class TrafficMapModel.
      */
     @Test
     public void testGetModule() {
-        //System.out.println("getModule");
+        //System.out.println("getModulePositionFromVertexModel");
         VertexModel vm = model.getMap().get(0).get(0).getVertex("West", "Out");
         IntersectionModel expResult = model.getMap().get(0).get(0);
-        IntersectionModel result = model.getModule(vm);
+        IntersectionModel result = model.getModuleFromVertex(vm);
         assertEquals(expResult, result);
     }
 }
