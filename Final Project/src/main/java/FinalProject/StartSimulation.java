@@ -19,13 +19,13 @@ import java.util.logging.Logger;
  */
 public class StartSimulation{
     SimulationClock clockStart;
-    TrafficMapModel model;
-    TrafficMapView map;
+    TrafficMapModel mapModel;
+    TrafficMapView mapView;
     
     public StartSimulation() throws InterruptedException
     {
-        model = TrafficMapModel.getMapInstance();
-        map = new TrafficMapView();
+        mapModel = TrafficMapModel.getMapInstance();
+        mapView = TrafficMapView.getInstance();
         TimeUnit.SECONDS.sleep(5);    
         clockStart = SimulationClock.getClockInstance();
     }

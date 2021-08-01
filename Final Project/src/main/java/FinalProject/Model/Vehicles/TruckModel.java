@@ -10,6 +10,8 @@
  */
 package FinalProject.Model.Vehicles;
 
+import FinalProject.Controller.Vehicle.CarController;
+import FinalProject.Controller.Vehicle.MapController;
 import FinalProject.Controller.Vehicle.TruckController;
 import FinalProject.Controller.Vehicle.VehicleController;
 import FinalProject.Model.Map.VertexModel;
@@ -26,5 +28,6 @@ public class TruckModel extends VehicleModel{
     {
         this.size = 3;
         controller = new VehicleController(new TruckController(route, this));
+        
     }
 }

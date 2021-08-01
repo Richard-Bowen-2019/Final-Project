@@ -6,6 +6,8 @@
 package FinalProject.Model.Vehicles;
 
 import FinalProject.Model.Map.VertexModel;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
 public class VehicleFactory {
     
     
-    public VehicleModel getVehicle(int r, List<VertexModel> route) throws InterruptedException
+    public VehicleModel getVehicle(int r, List<VertexModel> route) throws InterruptedException, IOException, URISyntaxException
     {
         switch(r)
         {

@@ -17,9 +17,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Richard
  */
 public class GlobalVariables {
-    static final int seedRate = 10;
-    static final int horizontalModules = 5;
-    static final int verticalModules = 3;
+    static final int seedRate = 5;
+    static final int horizontalModules = 10;
+    static final int verticalModules = 6;
     
     private GlobalVariables()
     {
@@ -36,7 +36,7 @@ public class GlobalVariables {
         return screenSize;
     }
     
-     public static int getHorizontalModules() {
+    public static int getHorizontalModules() {
         return horizontalModules;
     }
 

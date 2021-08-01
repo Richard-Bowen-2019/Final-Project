@@ -6,10 +6,14 @@
 package FinalProject.Controller.Vehicle;
 
 import FinalProject.Controller.Controller;
-import FinalProject.Controller.Map.MapController;
 import FinalProject.Controller.iController;
+import FinalProject.Model.Map.IntersectionModel;
+import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Vehicles.VehicleModel;
+import FinalProject.View.Map.ModuleView;
+import FinalProject.View.Map.RoadViewInterface;
+import FinalProject.View.Map.TrafficMapView;
 import java.util.List;
 
 /**
@@ -17,13 +21,17 @@ import java.util.List;
  * @author Richard
  */
 public class CarController extends aVehicle implements iController {
-    
+    MapController controller;
+    IntersectionModel module;
+    ModuleView view;
+   
     public CarController(List<VertexModel> route, VehicleModel current)throws InterruptedException
     {
+        model=TrafficMapModel.getMapInstance();
+        mapView = TrafficMapView.getInstance();
         this.route = route;
         this.currentVehicle = current;
-        this.mainController = new Controller();
-        controller = new MapController(route);
+        this.mainController = Controller.getControllerInstance();
         setUpFirst();
     }
     
@@ -33,6 +41,9 @@ public class CarController extends aVehicle implements iController {
         this.currentVertex = route.get(0);
         this.currentRoad = currentVertex.getIn();
         this.currentSlotSize = currentRoad.getSlotSize();
+        this.view = mapView.getModule(model.getModulePositionFromVertexModel(currentVertex));
+        this.rvi = view.getRoad(currentVertex.getLabel());
+        this.rvi.addVehicle(currentVehicle.getView());
     }
     
     public void setUpNext()
@@ -60,7 +71,7 @@ public class CarController extends aVehicle implements iController {
     @Override
     public void move() 
     {
-        if(mainController.vehicleListEmpty())
+        if(!mainController.vehicleListEmpty())
         {
             if(currentSlot<currentSlotSize)
             {
@@ -68,12 +79,14 @@ public class CarController extends aVehicle implements iController {
                 {
                     currentRoad.occupySlot(0,currentVehicle);
                     currentSlot++;
+                    controller.moveView();
                 }
                 else
                 {
                     currentRoad.occupySlot(currentSlot, currentVehicle);
                     currentRoad.vacateSlot(currentSlot-1);
                     currentSlot++;
+                    controller.moveView();
                 }
             }
             else
@@ -92,9 +105,9 @@ public class CarController extends aVehicle implements iController {
                     setUpNext();
                 }
             }
-            System.out.print("Vehicle Number: " + " ");
+            System.out.print("Car Number: " + vehicleNumber);
             currentRoad.printEdge();
-            System.out.println("Slot: " + currentSlot);
+            System.out.println("   Slot: " + currentSlot);
         }
         else
         {

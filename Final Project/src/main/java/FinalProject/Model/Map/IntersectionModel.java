@@ -5,6 +5,8 @@
  */
 package FinalProject.Model.Map;
 
+import FinalProject.View.Map.IntersectionRoadView;
+import FinalProject.View.Map.RoadViewInterface;
 import java.util.ArrayList;
 
 /**
@@ -17,15 +19,17 @@ public class IntersectionModel {
     String[] direction = {"North", "South", "East", "West"};    
     String[] type = {"In","Out"};
     int [] intersectionPosition;
+    private RoadViewInterface rvi;
     
     public IntersectionModel(int[] position)
     {
         this.intersectionPosition = position;
         createVertices();
         createEdges();
+        this.rvi = new IntersectionRoadView();
     }    
     
-    public void createVertices()
+    private void createVertices()
     {
         for(int i=0;i<direction.length;i++)
         {
