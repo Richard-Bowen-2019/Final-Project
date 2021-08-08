@@ -5,71 +5,92 @@
  */
 package FinalProject.View.Map;
 
-import FinalProject.GlobalVariables;
-import FinalProject.Model.Map.TrafficMapModel;
-import java.awt.GridLayout;
-import java.util.HashMap;
+import FinalProject.View.Vehicles.VehicleViewInterface;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Richard
  */
 public class ModuleView extends JPanel{
-    int xCoord;
-    int yCoord;
-    TrafficMapModel model;
-    RoadViewInterface north = new VerticalRoadView();
-    RoadViewInterface west = new HorizontalRoadView();
-    RoadViewInterface intersection = new IntersectionRoadView();
-    RoadViewInterface east = new HorizontalRoadView();
-    RoadViewInterface south = new VerticalRoadView();
+    int modulex;
+    int moduley;
+    ArrayList<VehicleViewInterface> vehicles;
+    int currentMove;
     
-    HashMap<String,RoadViewInterface> roads = new HashMap<>();
-    
-    public ModuleView(int x, int y){
-        addJPanels();
-        addRoads();
-        this.xCoord = x;
-        this.yCoord =y;
-        this.setLayout(new GridLayout(3,3));  
-        this.setBorder(new EmptyBorder(-2, -2,-2, -2));
-    }
-    
-    private void addJPanels()
-    {
-        this.add(new Blank());
-        this.add((JPanel)north);
-        this.add(new Blank());
-        this.add((JPanel)west);
-        this.add((JPanel)intersection);
-        this.add((JPanel)east);
-        this.add(new Blank());
-        this.add((JPanel)south);
-        this.add(new Blank());
-    }
-    
-    private void addRoads()
+    public ModuleView(int x,int y)
     {
         
-        roads.put("North",north);
-        roads.put("West",west);
-        roads.put("Intersection",intersection);
-        roads.put("East",east);
-        roads.put("South",south);
+        this.vehicles = new ArrayList<>();
+        this. modulex = x;
+        this.moduley = y;
+       
     }
     
-    public RoadViewInterface getRoad(String road)
+    public void addVehicle(VehicleViewInterface view, int[] position)
     {
-        return roads.get(road);
+        view.setX(position[0]);
+        view.setY(position[1]);
+        vehicles.add(view);
+        repaint();
+    }
+        
+    @Override
+    public void paintComponent(Graphics g) 
+    {
+        super.paintComponent(g);
+        setBackground(Color.WHITE);
+        g.setColor(Color.BLACK);
+        g.fillRect(0,this.getHeight()/3, this.getWidth(), this.getHeight()/3);
+        g.fillRect(this.getWidth()/3,0, this.getWidth()/3, this.getHeight());
+        g.setColor(Color.WHITE);
+        g.drawLine(0, 0, this.getWidth(), 0);
+        g.drawLine(0, 0, 0, this.getHeight());
+        g.drawLine(this.getWidth(), 0, this.getWidth(), this.getHeight());
+        g.drawLine(0, this.getHeight(), this.getWidth(), this.getHeight());
+        for(int i = 0;i<this.getWidth()/3;i = i + 15)
+        {
+            g.drawLine(i + 3 , this.getHeight()/2, i + 10, this.getHeight()/2);
+        }
+        for(int i = this.getWidth()*2/3;i<this.getWidth();i = i + 15)
+        {
+            g.drawLine(i + 3 , this.getHeight()/2, i + 10, this.getHeight()/2);
+        }
+        g.drawLine(0 , this.getHeight()/3, this.getWidth(), this.getHeight()/3);
+        g.drawLine(0 , this.getHeight()*2/3, this.getWidth(), this.getHeight()*2/3);
+        for(int i = 0;i<this.getHeight()/3-10;i = i + 15)
+        {
+            g.drawLine(this.getWidth()/2,i + 3 ,this.getWidth()/2 , i + 10);
+        }
+        for(int i = this.getHeight()*2/3;i<this.getHeight();i = i + 15)
+        {
+            g.drawLine(this.getWidth()/2,i + 3 ,this.getWidth()/2 , i + 10);
+        }
+        g.drawLine(this.getWidth()/3,0, this.getWidth()/3, this.getHeight());
+        g.drawLine(this.getWidth()*2/3,0, this.getWidth()*2/3, this.getHeight());
+       
+        g.setColor(Color.BLACK);
+        g.drawLine(this.getWidth()/3, 0, this.getWidth()*2/3, 0);
+        g.drawLine(this.getWidth()/3, this.getHeight(), this.getWidth()*2/3, this.getHeight());
+        g.drawLine(0,this.getHeight()/3, 0, this.getHeight()*2/3);
+        g.drawLine(this.getWidth(),this.getHeight()/3, this.getWidth(), this.getHeight()*2/3);
+        if(vehicles.size()!=0)
+        {
+            for(VehicleViewInterface vvi : vehicles)
+            {
+                vvi.paintComponent(g);
+            }
+        }
     }
     
-    public int getxCoord() {
-        return xCoord;
+    public void move(VehicleViewInterface vvi, int[] move)
+    {
+        vvi.setX(vvi.getX() + move[0]);
+        vvi.setY(vvi.getY() + move[1]);
+        repaint();
     }
-
-    public int getyCoord() {
-        return yCoord;
-    }    
 }

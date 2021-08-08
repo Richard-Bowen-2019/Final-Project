@@ -5,6 +5,7 @@
  */
 package FinalProject.Controller.Vehicle;
 
+import FinalProject.Controller.AStarRoute;
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.IntersectionModel;
 import FinalProject.Model.Map.VertexModel;
@@ -26,17 +27,17 @@ import static org.junit.Assert.*;
 public class RoutePlannerTest {
      
    TrafficMapModel model;
-   RoutePlanner instance;
+   AStarRoute instance;
    public RoutePlannerTest() throws InterruptedException {
         model = TrafficMapModel.getMapInstance();
-        instance = new RoutePlanner();
+        instance = new AStarRoute();
     }
     
     
 
     
     /**
-     * Test of aStar method, of class RoutePlanner for one route.
+     * Test of aStar method, of class AStarRoute for one route.
      */
     
     @Test
@@ -84,7 +85,7 @@ public class RoutePlannerTest {
     }
     
     /**
-     * Test of aStar method, of class RoutePlanner for second route.
+     * Test of aStar method, of class AStarRoute for second route.
      */
     @Test
     public void testAStar2() {
@@ -127,7 +128,7 @@ public class RoutePlannerTest {
     }
     
     /**
-     * Test of aStar method, of class RoutePlanner for third route.
+     * Test of aStar method, of class AStarRoute for third route.
      */
     @Test
     public void testAStar3() {
@@ -167,7 +168,7 @@ public class RoutePlannerTest {
     
     
     /**
-     * Test of Heuristic method, of class RoutePlanner.
+     * Test of Heuristic method, of class AStarRoute.
      */
     @Test
     public void testHeuristic() {

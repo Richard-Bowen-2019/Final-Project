@@ -6,9 +6,6 @@
 package FinalProject.Model.Map;
 
 import FinalProject.Model.Vehicles.VehicleModel;
-import FinalProject.View.Map.HorizontalRoadView;
-import FinalProject.View.Map.RoadViewInterface;
-import FinalProject.View.Map.VerticalRoadView;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -21,7 +18,6 @@ public class RoadModel {
     private VehicleModel[] vehicles;
     private VertexModel source;
     private VertexModel destination;
-    private RoadViewInterface rvi;
     
     public RoadModel(VertexModel source,VertexModel destination)
     {
@@ -40,11 +36,6 @@ public class RoadModel {
         }
         this.source = source;
         this.destination = destination;
-    }
-    
-    public RoadViewInterface getInterface()
-    {
-        return rvi;
     }
     
     public VertexModel getSource() {

@@ -9,9 +9,9 @@
 package FinalProject.Model.Vehicles;
 
 
-import FinalProject.Controller.Vehicle.VanController;
-import FinalProject.Controller.Vehicle.VehicleController;
+import FinalProject.Controller.VehicleController.VehicleControllers.VanModelController;
 import FinalProject.Model.Map.VertexModel;
+import FinalProject.Resources.GV;
 import FinalProject.View.Vehicles.VanView;
 import java.util.List;
 /**
@@ -20,13 +20,10 @@ import java.util.List;
  */
 public class VanModel extends VehicleModel{
     
-    public VanModel(List<VertexModel> route) throws InterruptedException
+    public VanModel() 
     {
-        this.vehicleNumber = vehicleNumber++;
-        this.size = 1;
-        controller = new VehicleController(new VanController(route, this));
-        //view = new VanView();
         this.size = 2;
+        this.speed = GV.getModuleHeights()/30;
     }
 
     

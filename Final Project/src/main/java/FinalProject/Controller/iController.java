@@ -17,4 +17,5 @@ import java.util.List;
 public interface iController 
 {
     void move();
+    void EmergencyVehicle();
 }

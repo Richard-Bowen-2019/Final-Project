@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.Controller.Vehicle;
+package FinalProject.Controller;
 
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.TrafficMapModel;
@@ -19,53 +19,14 @@ import java.util.PriorityQueue;
  *
  * @author Richard
  */
-public class RoutePlanner 
+public class AStarRoute 
 {
 
-TrafficMapModel tmp;
-
+TrafficMapModel mapModel;
     
-public RoutePlanner() throws InterruptedException
+public AStarRoute() throws InterruptedException
 {
-    tmp = TrafficMapModel.getMapInstance();
-}
-
-public LinkedList<VertexModel> getRoute()
-{
-    //tmp.resetMap();
-    VertexModel start = startPoint();
-    //System.out.println("Start: "+ start.getLabel() + " - "+start.getType() + " " + start.getModuleNumber());
-    VertexModel end = endPoint();
-    //System.out.println("End: "+ end.getLabel() + " - " + end.getType() + " " + end.getModuleNumber());
-    LinkedList<VertexModel> aStar = aStar(start,end);
-    //printList(aStar);
-    return aStar;
-}
-
-public int randomNode(int start,int end)
-{
-    int r = start + (int)(Math.random()*(end-start+1));
-    return r;
-}
-
-public VertexModel startPoint()
-{
-    int startPoint = randomNode(0,tmp.getEntryNodes().size()-1);
-    return tmp.getEntryNodes().get(startPoint);
-}
-
-public VertexModel endPoint()
-{
-    int endPoint = randomNode(0,tmp.getExitNodes().size()-1);
-    return tmp.getExitNodes().get(endPoint);
-}
-
-public void printList(List<VertexModel> avm)
-{
-    for(VertexModel vm:avm)
-    {
-        //System.out.println("Vertex: " + vm.getLabel()+" , "+vm.getType() + " , Module: "+ vm.getModuleNumber());
-    }
+    mapModel = TrafficMapModel.getMapInstance();
 }
    
 public LinkedList<VertexModel> createRoute(VertexModel start, VertexModel endPoint)
@@ -84,9 +45,15 @@ public LinkedList<VertexModel> createRoute(VertexModel start, VertexModel endPoi
     
     public LinkedList<VertexModel> aStar (VertexModel start, VertexModel end)
     {
+        if(start.getPosition()==end.getPosition()&&start.getLabel()==end.getLabel())
+        {
+            return aStar(start.getOut().getDestination(), end);
+        }
+        else
+        {
         PriorityQueue<VertexModel> closed = new PriorityQueue<>();
         PriorityQueue<VertexModel> open = new PriorityQueue<>();
-        System.out.print("Start and end points");
+        System.out.println("Start and end points");
         start.printVertex();
         end.printVertex();
         System.out.println();
@@ -132,9 +99,10 @@ public LinkedList<VertexModel> createRoute(VertexModel start, VertexModel endPoi
         }
         
         return createRoute(start, end);
+        }
     }
 
-    public double heuristic(VertexModel start,VertexModel end)
+    private double heuristic(VertexModel start,VertexModel end)
     {
         int[] startPosition = new int[2];
         int[] endPosition = new int[2];

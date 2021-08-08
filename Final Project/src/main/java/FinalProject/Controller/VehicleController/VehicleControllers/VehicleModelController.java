@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.Controller.Vehicle;
+package FinalProject.Controller.VehicleController.VehicleControllers;
 
-import FinalProject.Controller.Controller;
-import FinalProject.Controller.iController;
-import FinalProject.Model.Map.IntersectionModel;
+import FinalProject.Controller.MainController;
+import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Vehicles.VehicleModel;
 import FinalProject.View.Map.ModuleView;
-import FinalProject.View.Map.RoadViewInterface;
 import FinalProject.View.Map.TrafficMapView;
 import java.util.List;
 
@@ -20,19 +18,31 @@ import java.util.List;
  *
  * @author Richard
  */
-public class CarController extends aVehicle implements iController {
-    MapController controller;
-    IntersectionModel module;
-    ModuleView view;
-   
-    public CarController(List<VertexModel> route, VehicleModel current)throws InterruptedException
+public class VehicleModelController {
+    // Controllers
+    MainController mainController;
+    VehicleViewController vehicleViewController;
+    
+    //Model and view
+    TrafficMapModel mapModel;
+    TrafficMapView mapView;
+    ModuleView moduleView;
+    VehicleModel currentVehicle;
+    
+    // position variables
+    int currentSlot;
+    VertexModel currentVertex;
+    VertexModel nextVertex;
+    List<VertexModel> route;
+    RoadModel currentRoad;
+    int currentSlotSize;
+
+    
+    public VehicleModelController() throws InterruptedException
     {
-        model=TrafficMapModel.getMapInstance();
-        mapView = TrafficMapView.getInstance();
-        this.route = route;
-        this.currentVehicle = current;
-        this.mainController = Controller.getControllerInstance();
-        setUpFirst();
+        this.mainController = MainController.getControllerInstance();
+        this.mapModel = TrafficMapModel.getMapInstance();
+        this.mapView = TrafficMapView.getInstance();
     }
     
     public void setUpFirst()
@@ -41,34 +51,33 @@ public class CarController extends aVehicle implements iController {
         this.currentVertex = route.get(0);
         this.currentRoad = currentVertex.getIn();
         this.currentSlotSize = currentRoad.getSlotSize();
-        this.view = mapView.getModule(model.getModulePositionFromVertexModel(currentVertex));
-        this.rvi = view.getRoad(currentVertex.getLabel());
-        this.rvi.addVehicle(currentVehicle.getView());
+        this.moduleView = mapView.getModule(mapModel.getModulePositionFromVertexModel(currentVertex));
     }
     
     public void setUpNext()
     {
         if(route.size()>1)
         {
-            currentSlot = 0;
+            this.currentSlot = 0;
             this.nextVertex = route.get(1);
             this.currentRoad = currentVertex.getRoad(currentVertex, nextVertex);
             this.currentSlotSize = currentRoad.getSlotSize();
+            this.moduleView = mapView.getModule(mapModel.getModulePositionFromVertexModel(currentVertex));
         }
         route.remove(currentVertex);
-        currentVertex = nextVertex;
+        this.currentVertex = nextVertex;
     }
     
     public void setUpLast()
     {
+        
         currentSlot = 0;
         this.currentRoad = currentVertex.getOut();
         this.currentSlotSize = currentRoad.getSlotSize();
         route.remove(currentVertex);
+        this.moduleView = mapView.getModule(mapModel.getModulePositionFromVertexModel(currentVertex));
     }
     
-   
-    @Override
     public void move() 
     {
         if(!mainController.vehicleListEmpty())
@@ -79,14 +88,14 @@ public class CarController extends aVehicle implements iController {
                 {
                     currentRoad.occupySlot(0,currentVehicle);
                     currentSlot++;
-                    controller.moveView();
+                    vehicleViewController.moveView();
                 }
                 else
                 {
                     currentRoad.occupySlot(currentSlot, currentVehicle);
                     currentRoad.vacateSlot(currentSlot-1);
                     currentSlot++;
-                    controller.moveView();
+                    vehicleViewController.moveView();
                 }
             }
             else
@@ -105,9 +114,8 @@ public class CarController extends aVehicle implements iController {
                     setUpNext();
                 }
             }
-            System.out.print("Car Number: " + vehicleNumber);
-            currentRoad.printEdge();
-            System.out.println("   Slot: " + currentSlot);
+            currentVertex.printVertex();
+            System.out.println("Current position: "+ currentSlot);
         }
         else
         {
@@ -115,6 +123,4 @@ public class CarController extends aVehicle implements iController {
         }
     }
 
-    
-    
 }

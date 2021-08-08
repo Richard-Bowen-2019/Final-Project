@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Controller.Vehicle.RoutePlanner;
+import FinalProject.Controller.AStarRoute;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.After;
@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  */
 public class TrafficMapModelTest {
     TrafficMapModel model;
-    RoutePlanner planner;
+    AStarRoute planner;
     public TrafficMapModelTest() throws InterruptedException {
         model = TrafficMapModel.getMapInstance();
-        planner = new RoutePlanner();
+        planner = new AStarRoute();
     }
     
     /**

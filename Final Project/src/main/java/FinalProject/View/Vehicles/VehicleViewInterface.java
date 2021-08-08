@@ -12,9 +12,10 @@ import java.awt.Graphics;
  * @author Richard
  */
 public interface VehicleViewInterface {
-    void paintMe(Graphics g);
+    void paintComponent(Graphics g);
     public int getX();
     void setX(int x);
     public int getY();
     void setY(int x);
+    VehicleViewInterface realign(String direction);
    }

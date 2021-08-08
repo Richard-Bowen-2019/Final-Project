@@ -5,7 +5,8 @@
  */
 package FinalProject.View.Map;
 
-import FinalProject.GlobalVariables;
+import FinalProject.Resources.GV;
+import FinalProject.View.Vehicles.VehicleViewInterface;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -28,22 +29,25 @@ public class TrafficMapView {
     private TrafficMapView(){
         frame = new JFrame();
         frame.setBackground(Color.WHITE);
-        GridLayout gl = new GridLayout(GlobalVariables.getVerticalModules(),GlobalVariables.getHorizontalModules());
+        GridLayout gl = new GridLayout(GV.getVerticalModules(),GV.getHorizontalModules());
         gl.setVgap(-2);
         
-        for(int i = 0;i<GlobalVariables.getVerticalModules();i++)
+        for(int i = 0;i<GV.getVerticalModules();i++)
         {
             ArrayList<ModuleView> view = new ArrayList<>();
-            for(int j = 0;j<GlobalVariables.getHorizontalModules();j++)
+            for(int j = 0;j<GV.getHorizontalModules();j++)
             {
-                ModuleView newModule = new ModuleView(i,j);
+                ModuleView newModule = new ModuleView(j,i);
                 frame.add(newModule);
                 view.add(newModule);
+                
             }
             mapGUI.add(view);
         }
+        
+        
         frame.setLayout(gl);
-        frame.setSize(GlobalVariables.getScreenSize());
+        frame.setSize(GV.getScreenSize());
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -76,7 +80,6 @@ public class TrafficMapView {
     
     public ModuleView getModule(int[] position)
     {
-       
         return mapGUI.get(position[1]).get(position[0]);
     }
 }

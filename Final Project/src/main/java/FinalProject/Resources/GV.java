@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject;
+package FinalProject.Resources;
 
+import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Vehicles.VehicleModel;
+import FinalProject.View.Map.TrafficMapView;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Collections;
@@ -16,12 +18,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Richard
  */
-public class GlobalVariables {
+public class GV {
     static final int seedRate = 5;
     static final int horizontalModules = 10;
     static final int verticalModules = 6;
-    
-    private GlobalVariables()
+    private TrafficMapModel model;
+    private TrafficMapView view;
+
+    private GV()
     {
          
     }

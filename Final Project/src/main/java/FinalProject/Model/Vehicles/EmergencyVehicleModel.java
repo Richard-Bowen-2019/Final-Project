@@ -5,22 +5,16 @@
  */
 package FinalProject.Model.Vehicles;
 
-import FinalProject.View.Vehicles.VehicleViewInterface;
+import FinalProject.Resources.GV;
 
 /**
  *
  * @author Richard
  */
-public abstract class VehicleModel {
-    protected int size;
-    protected int speed;
-    
-    public int getSize() {
-        return size;
+public class EmergencyVehicleModel extends VehicleModel{
+    public EmergencyVehicleModel()  
+    {
+        this.size = 1;
+        this.speed = GV.getModuleHeights()/10;
     }
-    
-    public int getSpeed() {
-        return speed;
-    }
- }
-
+}

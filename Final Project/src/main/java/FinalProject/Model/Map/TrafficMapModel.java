@@ -5,14 +5,8 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Controller.Vehicle.MapController;
-import FinalProject.Controller.SimulationClock;
-import FinalProject.GlobalVariables;
-import FinalProject.View.Map.ModuleView;
-import FinalProject.View.Map.RoadViewInterface;
-import FinalProject.View.Map.TrafficMapView;
+import FinalProject.Resources.GV;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -41,18 +35,20 @@ public class TrafficMapModel {
        return mapInstance;
     }
     
-    int width = GlobalVariables.getHorizontalModules();
-    int height = GlobalVariables.getVerticalModules();
+    int width = GV.getHorizontalModules();
+    int height = GV.getVerticalModules();
     
     private void createMap()
     {
+       
         for(int i = 0;i<height;i++)
         {
             ArrayList<IntersectionModel> temp = new ArrayList<>();
             for(int j = 0;j<width;j++)
             {
-                int[] position = {i,j};
+                int[] position = {j,i};
                 temp.add(new IntersectionModel(position));
+                
             }
             map.add(temp);
         }
@@ -222,7 +218,7 @@ public class TrafficMapModel {
     public IntersectionModel getModuleFromVertex(VertexModel vm)
     {
         int[] position = getModulePositionFromVertexModel(vm); 
-        return map.get(position[1]).get(position[0]);
+        return map.get(position[0]).get(position[1]);
     }
     
     public void printList(ArrayList<VertexModel> vm)
