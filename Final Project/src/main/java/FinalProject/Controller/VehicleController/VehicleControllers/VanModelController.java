@@ -5,12 +5,8 @@
  */
 package FinalProject.Controller.VehicleController.VehicleControllers;
 
-import FinalProject.Controller.iController;
-import FinalProject.Controller.MainController;
-import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Vehicles.VanModel;
-import FinalProject.Model.Vehicles.VehicleModel;
 import FinalProject.View.Vehicles.VanView;
 import java.io.IOException;
 import java.util.List;
@@ -19,13 +15,14 @@ import java.util.List;
  *
  * @author Richard
  */
-public class VanModelController extends VehicleModelController implements iController{
+public class VanModelController extends VehicleController implements ControllerInterface{
     
     public VanModelController(List<VertexModel> route)throws InterruptedException, IOException
     {
+        super();
         this.route = route;
-        this.currentVehicle = new VanModel();
-        this.vehicleViewController = new VanViewController(route.get(0),route.get(1));
+        this.vehicleModel = new VanModel();
+        this.vehicleViewInterface = new VanView(route.get(0).getLabel());
         setUpFirst();
     }
 

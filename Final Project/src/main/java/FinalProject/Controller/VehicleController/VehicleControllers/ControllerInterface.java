@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FinalProject.Controller;
+package FinalProject.Controller.VehicleController.VehicleControllers;
 
 import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.VertexModel;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Richard
  */
-public interface iController 
+public interface ControllerInterface 
 {
     void move();
     void EmergencyVehicle();

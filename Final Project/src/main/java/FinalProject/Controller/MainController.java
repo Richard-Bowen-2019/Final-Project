@@ -5,7 +5,7 @@
  */
 package FinalProject.Controller;
 
-import FinalProject.Controller.VehicleController.VehicleControllers.VehicleModelController;
+import FinalProject.Controller.VehicleController.VehicleControllers.VehicleController;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Vehicles.VehicleModel;
@@ -32,7 +32,7 @@ public class MainController {
     TrafficMapModel mapModel;
     TrafficMapView mapView;
     private AStarRoute planner;
-    private List<VehicleModelController> masterVehicleList;
+    private List<VehicleController> masterVehicleList;
     int counter;
     Timer timer;
     
@@ -59,16 +59,14 @@ public class MainController {
             @Override
             public void run() 
             {
-                boolean run = true;
                 try 
                 {
                     while(true) 
                     {
                     
-                        if(counter%seedRate==0&&run)
+                        if(counter%seedRate==0)
                         {
                             createNewVehicle();
-                            run=false;
                         }
                         else
                         {
@@ -101,7 +99,7 @@ public class MainController {
     
     private void update()
     {
-        Iterator<VehicleModelController> it = masterVehicleList.iterator(); 
+        Iterator<VehicleController> it = masterVehicleList.iterator(); 
         
         while (it.hasNext()) 
         {
@@ -111,7 +109,7 @@ public class MainController {
     
     private void createNewVehicle() throws InterruptedException, IOException, URISyntaxException
     {
-        VehicleModelController newVehicle;
+        VehicleController newVehicle;
         VehicleControllerFactory factory = new VehicleControllerFactory();
         newVehicle = factory.getVehicle(1, getRoute());
         masterVehicleList.add(newVehicle);
@@ -119,10 +117,8 @@ public class MainController {
     
     private List<VertexModel> getRoute()
     {
-        VertexModel start = mapModel.getMap().get(0).get(0).getVertex("North", "In");
-        VertexModel end = mapModel.getMap().get(5).get(9).getVertex("South", "Out");
-        //VertexModel start = newEntryorExitPoint("Entry");
-        //VertexModel end = newEntryorExitPoint("Exit");
+        VertexModel start = newEntryorExitPoint("Entry");
+        VertexModel end = newEntryorExitPoint("Exit");
         List<VertexModel> aStar = planner.aStar(start, end);
         return aStar;
     }

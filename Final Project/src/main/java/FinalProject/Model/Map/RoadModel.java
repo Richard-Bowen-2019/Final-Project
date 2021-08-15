@@ -5,6 +5,7 @@
  */
 package FinalProject.Model.Map;
 
+import FinalProject.Controller.VehicleController.VehicleControllers.ControllerInterface;
 import FinalProject.Model.Vehicles.VehicleModel;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -18,36 +19,56 @@ public class RoadModel {
     private VehicleModel[] vehicles;
     private VertexModel source;
     private VertexModel destination;
-    
-    public RoadModel(VertexModel source,VertexModel destination)
+    private String type;
+    ControllerInterface controller;
+    /**
+    * Constructor of the RoadModel class
+    * 
+    * @param     Source and destination vertices as well as the type of Road   
+    * @return    None
+    */
+    //
+    public RoadModel(VertexModel source,VertexModel destination, String type)
     {
+        this.type = type;
         this.weighting = 0;
-        
-        if(source==null||destination==null||(source.getType()=="Out"||destination.getType()=="In"))
+        if(type=="Connecting")
         {
-            vehicles = new VehicleModel[10];
             initiateSlots(10);
         }
         else
         {
-            vehicles = new VehicleModel[2];
-            initiateSlots(2);
-            
+            initiateSlots(5);
         }
+        
         this.source = source;
         this.destination = destination;
     }
     
+    /**
+    * Getter for the road source
+    * 
+    * @param     None   
+    * @return    A vertex model object corresponding the source property.
+    */
+    //
     public VertexModel getSource() {
         return source;
     }
     
-    public int getSlot(VehicleModel vhl)
+    /**
+    * Getter for the specific slot occupied by a specific vehicle
+    * 
+    * @param     VehicleModel The vehicle for which the slot is required  
+    * @return    int position of the slot occupied by the vehicle 
+    */
+    //
+    public int getSlot(VehicleModel vehicle)
     {
-        int temp = 15;
+        int temp = 0;
         for(int i = 0;i<vehicles.length;i++)
         {
-            if(vehicles[i]==vhl)
+            if(vehicles[i]==vehicle)
             {
                 return i;
             }
@@ -55,16 +76,45 @@ public class RoadModel {
         return temp;
     }
     
+    /**
+    * method to return a slot to the null state
+    * 
+    * @param     int The slot number that needs vacating  
+    * @return    None 
+    */
+    //
     public void vacateSlot(int slot)
     {
         vehicles[slot]=null;
     }
 
+    /**
+    * Method to assign a slot with a vehicle Object
+    * 
+    * @param     int The slot number that needs occupying
+    *            VehicleModel the vehicle to be assigned to that slot
+    * @return    None 
+    */
+    //
     public void occupySlot(int i, VehicleModel v)
     {
-           vehicles[i]=v;
-           weighting++;
+        vehicles[i]=v;
     }
+    
+    /**
+    * Method to assign a slot with a vehicle Object
+    * 
+    * @param     int The slot number that needs occupying
+    *            VehicleModel the vehicle to be assigned to that slot
+    * @return    None 
+    */
+    //
+    public boolean checkSlot(int i)
+    {
+        return vehicles[i]==null;
+    }
+    
+    
     
     public int getSlotSize()
     {
@@ -72,6 +122,7 @@ public class RoadModel {
     }
     
     private void initiateSlots(int n){
+        vehicles = new VehicleModel[n];
         for(int i = 0;i<n;i++)
         {
             vehicles[i]=null;
@@ -117,4 +168,13 @@ public class RoadModel {
         }
         
     }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+    
 }

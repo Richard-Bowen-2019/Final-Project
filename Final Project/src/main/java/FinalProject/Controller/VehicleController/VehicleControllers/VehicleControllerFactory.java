@@ -17,7 +17,7 @@ import java.util.List;
 public class VehicleControllerFactory {
     
     
-    public VehicleModelController getVehicle(int r, List<VertexModel> route) throws InterruptedException, IOException, URISyntaxException
+    public VehicleController getVehicle(int r, List<VertexModel> route) throws InterruptedException, IOException, URISyntaxException
     {
         switch(r)
         {

@@ -5,6 +5,8 @@
  */
 package FinalProject.View.Vehicles;
 
+import FinalProject.Model.Map.RoadModel;
+import FinalProject.View.Map.ModuleView;
 import java.awt.Graphics;
 
 /**
@@ -18,4 +20,4 @@ public interface VehicleViewInterface {
     public int getY();
     void setY(int x);
     VehicleViewInterface realign(String direction);
-   }
+}

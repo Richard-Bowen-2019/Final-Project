@@ -60,6 +60,11 @@ public class VertexModel implements Comparable<VertexModel>{
         this.y = vertices.get(key)[1] + position[1]*12;
     }
     
+    public int[] getVertex(String position)
+    {
+        return vertices.get(position);
+    }
+    
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }

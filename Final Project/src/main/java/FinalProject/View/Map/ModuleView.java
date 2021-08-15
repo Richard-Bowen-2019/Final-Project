@@ -31,14 +31,20 @@ public class ModuleView extends JPanel{
        
     }
     
-    public void addVehicle(VehicleViewInterface view, int[] position)
+    public void addVehicle(VehicleViewInterface view, int[] startingPosition)
     {
-        view.setX(position[0]);
-        view.setY(position[1]);
+        view.setX(startingPosition[0]);
+        view.setY(startingPosition[1]);
         vehicles.add(view);
         repaint();
     }
-        
+    
+    public void removeVehicle(VehicleViewInterface view)
+    {
+        vehicles.remove(view);
+        repaint();
+    }
+    
     @Override
     public void paintComponent(Graphics g) 
     {

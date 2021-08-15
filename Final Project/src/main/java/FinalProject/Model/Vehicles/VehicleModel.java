@@ -22,5 +22,13 @@ public abstract class VehicleModel {
     public int getSpeed() {
         return speed;
     }
+    
+    public void setSize(int vehicleSize) {
+        this.size = vehicleSize;
+    }
+    
+    public void getSpeed(int vehicleSpeed) {
+        this.speed= vehicleSpeed;
+    }
  }
 

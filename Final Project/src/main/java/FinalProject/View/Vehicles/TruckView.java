@@ -5,6 +5,7 @@
  */
 package FinalProject.View.Vehicles;
 
+import FinalProject.Model.Map.RoadModel;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,5 +29,4 @@ public class TruckView extends VehicleView implements VehicleViewInterface{
     {
         g.drawImage(vehicleImage,x,y,null);
     }
-    
 }
