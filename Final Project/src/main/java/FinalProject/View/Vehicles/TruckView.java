@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Richard
  */
 public class TruckView extends VehicleView implements VehicleViewInterface{
-    String[] imageList = {"truck1.png","truck2.png"};
+    String[] imageList = {"\\truck1.png","\\truck2.png"};
 
     public TruckView(String direction) throws IOException    
     {

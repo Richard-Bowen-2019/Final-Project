@@ -7,7 +7,7 @@ package FinalProject.Model.Vehicles;
 
 
 import FinalProject.Model.Map.VertexModel;
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import FinalProject.View.Vehicles.CarView;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,7 +23,7 @@ public class CarModel extends VehicleModel {
     public CarModel()  
     {
         this.size = 1;
-        this.speed = GV.getModuleHeights()/30;
+        this.speed = GlobalVariables.getModuleHeights()/30;
     }
 
     

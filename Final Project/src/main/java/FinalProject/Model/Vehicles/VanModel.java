@@ -9,11 +9,7 @@
 package FinalProject.Model.Vehicles;
 
 
-import FinalProject.Controller.VehicleController.VehicleControllers.VanModelController;
-import FinalProject.Model.Map.VertexModel;
-import FinalProject.Resources.GV;
-import FinalProject.View.Vehicles.VanView;
-import java.util.List;
+import FinalProject.Resources.GlobalVariables;
 /**
  *
  * @author Richard
@@ -23,7 +19,7 @@ public class VanModel extends VehicleModel{
     public VanModel() 
     {
         this.size = 2;
-        this.speed = GV.getModuleHeights()/30;
+        this.speed = GlobalVariables.getModuleHeights()/30;
     }
 
     

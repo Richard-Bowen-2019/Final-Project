@@ -5,7 +5,7 @@
  */
 package FinalProject.View.Vehicles;
 
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -27,12 +27,12 @@ public abstract class VehicleView implements VehicleViewInterface {
     protected ArrayList<BufferedImage> vehicles;
     int x;
     int y;
-    String path = new File("src/main/java/FinalProject/Resources/").getAbsolutePath();
+    String path = new File("src\\main\\java\\FinalProject\\Resources\\Images").getAbsolutePath();
     ArrayList<String> images;
     BufferedImage vehicleImageOriginal;
     BufferedImage vehicleImage;
-    int width = GV.getModuleWidths();
-    int height = GV.getModuleHeights();
+    int width = GlobalVariables.getModuleWidths();
+    int height = GlobalVariables.getModuleHeights();
     
     protected BufferedImage getVehicle(String direction) throws IOException 
     {
@@ -106,7 +106,6 @@ public abstract class VehicleView implements VehicleViewInterface {
     
     protected void addImages(String[] imageList)
     {
-        String path = new File("src\\main\\java\\FinalProject\\Resources\\Images").getAbsolutePath();
         for(String s : imageList)
         {
             images.add(path.concat(s));

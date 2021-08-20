@@ -10,7 +10,7 @@ import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Vehicles.VehicleModel;
 import FinalProject.Controller.VehicleController.VehicleControllers.VehicleControllerFactory;
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import FinalProject.View.Map.TrafficMapView;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -42,7 +42,7 @@ public class MainController {
         mapView = TrafficMapView.getInstance();
         planner = new AStarRoute();
         masterVehicleList = new CopyOnWriteArrayList<>();
-        int seedRate = GV.getSeedRate();
+        
         
         
         TimerTask timerTask = new TimerTask() 
@@ -64,15 +64,12 @@ public class MainController {
                     while(true) 
                     {
                     
-                        if(counter%seedRate==0)
+                        if(counter%GlobalVariables.getSeedRate()==0)
                         {
                             createNewVehicle();
                         }
-                        else
-                        {
-                            update();
-                        }
-                        Thread.sleep(1000);
+                        update();
+                        Thread.sleep(GlobalVariables.getSpeed());
                         counter++; 
                     }    
                 } 

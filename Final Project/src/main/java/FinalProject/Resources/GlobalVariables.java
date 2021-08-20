@@ -18,14 +18,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Richard
  */
-public class GV {
-    static final int seedRate = 5;
+public class GlobalVariables {
+    static int seedRate = 5;
+
+    
+    static int speed = 100;
+
+    public static int getSpeed() {
+        return speed;
+    }
     static final int horizontalModules = 10;
     static final int verticalModules = 6;
     private TrafficMapModel model;
     private TrafficMapView view;
 
-    private GV()
+    private GlobalVariables()
     {
          
     }
@@ -47,7 +54,13 @@ public class GV {
     public static int getVerticalModules() {
         return verticalModules;
     }
-    
+    public static void setSeedRate(int seedRate) {
+        GlobalVariables.seedRate = seedRate;
+    }
+
+    public static void setSpeed(int speed) {
+        GlobalVariables.speed = speed;
+    }
     public static int getModuleWidths() {
         return getScreenSize().width/getHorizontalModules();
     }

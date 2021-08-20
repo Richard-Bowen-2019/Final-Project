@@ -7,7 +7,7 @@ package FinalProject;
 
 import FinalProject.Controller.MainController;
 import FinalProject.Model.Map.TrafficMapModel;
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import FinalProject.View.Map.TrafficMapView;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;

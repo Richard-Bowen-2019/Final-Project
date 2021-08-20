@@ -5,6 +5,7 @@
  */
 package FinalProject.View.Map;
 
+import FinalProject.Resources.GlobalVariables;
 import FinalProject.View.Vehicles.VehicleViewInterface;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,24 +18,17 @@ import javax.swing.JPanel;
  * @author Richard
  */
 public class ModuleView extends JPanel{
-    int modulex;
-    int moduley;
+    int moduleHeight;
+    int moduleWidth;
+    int widthNumber;
+    int heightNumber;
     ArrayList<VehicleViewInterface> vehicles;
     int currentMove;
     
-    public ModuleView(int x,int y)
+    public void addVehicle(VehicleViewInterface view, double[] startingPosition)
     {
-        
-        this.vehicles = new ArrayList<>();
-        this. modulex = x;
-        this.moduley = y;
-       
-    }
-    
-    public void addVehicle(VehicleViewInterface view, int[] startingPosition)
-    {
-        view.setX(startingPosition[0]);
-        view.setY(startingPosition[1]);
+        view.setX((int)startingPosition[0]);
+        view.setY((int)startingPosition[1]);
         vehicles.add(view);
         repaint();
     }
@@ -45,58 +39,91 @@ public class ModuleView extends JPanel{
         repaint();
     }
     
+    public ModuleView()
+    {
+        this.moduleHeight = GlobalVariables.getModuleHeights();
+        this.moduleWidth = GlobalVariables.getModuleWidths();
+        this.heightNumber = GlobalVariables.getVerticalModules();
+        this.widthNumber = GlobalVariables.getHorizontalModules();
+        vehicles = new ArrayList<>();
+    }
+    
     @Override
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
-        setBackground(Color.WHITE);
         g.setColor(Color.BLACK);
-        g.fillRect(0,this.getHeight()/3, this.getWidth(), this.getHeight()/3);
-        g.fillRect(this.getWidth()/3,0, this.getWidth()/3, this.getHeight());
+        //horizontal roads
+        for(int i = 0;i<heightNumber;i++)
+        {
+            g.fillRect(0,this.moduleHeight/3 + this.moduleHeight*i, this.getWidth(), this.moduleHeight/3);
+        }
+        //Vertical roads
+        for(int i = 0;i<widthNumber;i++)
+        {
+            g.fillRect(this.moduleWidth/3 + this.moduleWidth*i,0,this.moduleWidth/3,this.getHeight());
+        }
+        //Horizontal lines
         g.setColor(Color.WHITE);
-        g.drawLine(0, 0, this.getWidth(), 0);
-        g.drawLine(0, 0, 0, this.getHeight());
-        g.drawLine(this.getWidth(), 0, this.getWidth(), this.getHeight());
-        g.drawLine(0, this.getHeight(), this.getWidth(), this.getHeight());
-        for(int i = 0;i<this.getWidth()/3;i = i + 15)
+        for(int i = 0;i<heightNumber;i++)
         {
-            g.drawLine(i + 3 , this.getHeight()/2, i + 10, this.getHeight()/2);
+            g.drawLine(0, this.moduleHeight/3+ this.moduleHeight*i, this.getWidth(), this.moduleHeight/3+ this.moduleHeight*i);
+            g.drawLine(0, this.moduleHeight*2/3 + this.moduleHeight*i, this.getWidth(), this.moduleHeight*2/3 + this.moduleHeight*i);
         }
-        for(int i = this.getWidth()*2/3;i<this.getWidth();i = i + 15)
+        //Vertical lines
+        for(int i = 0;i<30;i++)
         {
-            g.drawLine(i + 3 , this.getHeight()/2, i + 10, this.getHeight()/2);
+            g.drawLine(this.moduleWidth/3+this.moduleWidth*i, 0, this.moduleWidth/3+this.moduleWidth*i, this.getHeight());
+            g.drawLine(this.moduleWidth*2/3+this.moduleWidth*i, 0, this.moduleWidth*2/3+this.moduleWidth*i, this.getHeight());
         }
-        g.drawLine(0 , this.getHeight()/3, this.getWidth(), this.getHeight()/3);
-        g.drawLine(0 , this.getHeight()*2/3, this.getWidth(), this.getHeight()*2/3);
-        for(int i = 0;i<this.getHeight()/3-10;i = i + 15)
+        
+        //Horizontal roadlines
+        for(int k=0;k<heightNumber;k++)
         {
-            g.drawLine(this.getWidth()/2,i + 3 ,this.getWidth()/2 , i + 10);
-        }
-        for(int i = this.getHeight()*2/3;i<this.getHeight();i = i + 15)
-        {
-            g.drawLine(this.getWidth()/2,i + 3 ,this.getWidth()/2 , i + 10);
-        }
-        g.drawLine(this.getWidth()/3,0, this.getWidth()/3, this.getHeight());
-        g.drawLine(this.getWidth()*2/3,0, this.getWidth()*2/3, this.getHeight());
-       
-        g.setColor(Color.BLACK);
-        g.drawLine(this.getWidth()/3, 0, this.getWidth()*2/3, 0);
-        g.drawLine(this.getWidth()/3, this.getHeight(), this.getWidth()*2/3, this.getHeight());
-        g.drawLine(0,this.getHeight()/3, 0, this.getHeight()*2/3);
-        g.drawLine(this.getWidth(),this.getHeight()/3, this.getWidth(), this.getHeight()*2/3);
-        if(vehicles.size()!=0)
-        {
-            for(VehicleViewInterface vvi : vehicles)
+            for(int j = 0;j<widthNumber*3;j++)
             {
-                vvi.paintComponent(g);
+               if((j-1)%3!=0)
+               {
+                    for(int i = this.getWidth()*j/30;i<this.getWidth()*(j+1)/30;i=i+15)
+                    {
+                        g.drawLine(i + 3,this.moduleHeight/2 + this.moduleHeight*k,i + 8,this.moduleHeight/2 + this.moduleHeight*k);
+                    }
+               }   
             }
         }
+        
+        
+        //Vertical roadlines
+        for(int k = 0;k<widthNumber;k++)
+        {
+            for(int j = 0;j<heightNumber*3;j++)
+            {
+               if((j-1)%3!=0)
+               {
+                    for(int i = this.getHeight()*j/18+4*j;i<this.getHeight()*(j+1)/18+4*j;i=i+15)
+                    {
+                        g.drawLine(this.moduleWidth/2 + this.moduleWidth*k,i + 3,this.moduleWidth/2 + this.moduleWidth*k,i+8);
+                    }
+               }   
+            }
+        }
+        
+        for(VehicleViewInterface vvi : vehicles)
+        {
+            vvi.paintComponent(g);
+        }
+        
     }
     
-    public void move(VehicleViewInterface vvi, int[] move)
+    public ArrayList<VehicleViewInterface> getVehicles() 
     {
-        vvi.setX(vvi.getX() + move[0]);
-        vvi.setY(vvi.getY() + move[1]);
+        return vehicles;
+    }
+    
+    public void move(VehicleViewInterface vvi, double[] move)
+    {
+        vvi.setX(vvi.getX() + (int) move[0]);
+        vvi.setY(vvi.getY() + (int) move[1]);
         repaint();
     }
 }

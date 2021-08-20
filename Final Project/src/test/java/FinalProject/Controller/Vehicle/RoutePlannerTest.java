@@ -6,17 +6,9 @@
 package FinalProject.Controller.Vehicle;
 
 import FinalProject.Controller.AStarRoute;
-import FinalProject.Model.Map.RoadModel;
-import FinalProject.Model.Map.IntersectionModel;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Map.TrafficMapModel;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -33,10 +25,7 @@ public class RoutePlannerTest {
         instance = new AStarRoute();
     }
     
-    
-
-    
-    /**
+   /**
      * Test of aStar method, of class AStarRoute for one route.
      */
     
@@ -170,7 +159,7 @@ public class RoutePlannerTest {
     /**
      * Test of Heuristic method, of class AStarRoute.
      */
-    @Test
+    /*@Test
     public void testHeuristic() {
         //System.out.println("Heuristic");
         VertexModel start = model.getMap().get(0).get(2).getVertex("North", "In");
@@ -189,9 +178,6 @@ public class RoutePlannerTest {
         result = instance.heuristic(start2, end2);
         assertEquals(expResult,result,0.01);
         
-        
-        
-        
-    }
+     }*/
 
 }

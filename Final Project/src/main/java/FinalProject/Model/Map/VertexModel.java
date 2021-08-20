@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

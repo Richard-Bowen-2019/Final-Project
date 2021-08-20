@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import java.util.ArrayList;
 
 /**
@@ -35,8 +35,8 @@ public class TrafficMapModel {
        return mapInstance;
     }
     
-    int width = GV.getHorizontalModules();
-    int height = GV.getVerticalModules();
+    int width = GlobalVariables.getHorizontalModules();
+    int height = GlobalVariables.getVerticalModules();
     
     private void createMap()
     {

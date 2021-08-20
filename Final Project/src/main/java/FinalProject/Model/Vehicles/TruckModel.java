@@ -13,7 +13,7 @@ package FinalProject.Model.Vehicles;
 
 import FinalProject.Controller.VehicleController.VehicleControllers.TruckModelController;
 import FinalProject.Model.Map.VertexModel;
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import java.util.List;
 
 /**
@@ -25,6 +25,6 @@ public class TruckModel extends VehicleModel{
     public TruckModel() 
     {
         this.size = 3;
-        this.speed = GV.getModuleHeights()/30;
+        this.speed = GlobalVariables.getModuleHeights()/30;
     }
 }

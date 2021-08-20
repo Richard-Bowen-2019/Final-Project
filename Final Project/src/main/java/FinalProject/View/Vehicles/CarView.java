@@ -6,7 +6,6 @@
 package FinalProject.View.Vehicles;
 
 
-import FinalProject.Model.Map.RoadModel;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  */
 public class CarView extends VehicleView implements VehicleViewInterface
 {
-    String[] imageList = {"\\Car1.png","\\Car2.png","\\Car3.png","\\Car4.png", "\\taxi1.png"};
+    String[] imageList = {"\\Car5.png", "\\taxi1.png"};
     
     public CarView(String direction) throws IOException
     {

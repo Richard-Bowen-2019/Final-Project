@@ -6,6 +6,7 @@
 package FinalProject.Model.Map;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,13 +18,14 @@ public class NodeTest {
     int[] module = {0,0};
     VertexModel source = new VertexModel("North","In",module);
     VertexModel destination1 = new VertexModel("South","Out",module);
-    RoadModel testEdge1 = new RoadModel(source,destination1);
+    RoadModel testEdge1 = new RoadModel(source,destination1,"Intersection");
     VertexModel destination2 = new VertexModel("West","Out",module);
-    RoadModel testEdge2 = new RoadModel(source,destination2);
-    RoadModel testEdge3 = new RoadModel(source,null);
-    RoadModel testEdge4 = new RoadModel(null, destination1);
+    RoadModel testEdge2 = new RoadModel(source,destination2,"Intersection");
+    RoadModel testEdge3 = new RoadModel(source,null, "Exit");
+    RoadModel testEdge4 = new RoadModel(null, destination1,"Entry");
     
-    public NodeTest() {
+    public NodeTest() 
+    {
     source.addEdge(testEdge1);
     source.addEdge(testEdge2);
     source.addEdge(testEdge3);
@@ -38,7 +40,7 @@ public class NodeTest {
         //System.out.println("getInRoads");
         ArrayList<RoadModel> expResult = new ArrayList<>();
         expResult.add(testEdge4);
-        ArrayList<RoadModel> result = source.getInRoads();
+        List<RoadModel> result = source.getInRoads();
         assertEquals(expResult, result);
     }
 
@@ -50,7 +52,7 @@ public class NodeTest {
         //System.out.println("getOutRoads");
         ArrayList<RoadModel> expResult = new ArrayList<>();
         expResult.add(testEdge3);
-        ArrayList<RoadModel> result = source.getOutRoads();
+        List<RoadModel> result = source.getOutRoads();
         assertEquals(expResult, result);
     }
 

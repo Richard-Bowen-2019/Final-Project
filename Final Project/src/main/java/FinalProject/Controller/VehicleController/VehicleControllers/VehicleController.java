@@ -10,17 +10,16 @@ import FinalProject.Model.Map.RoadModel;
 import FinalProject.Model.Map.TrafficMapModel;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Vehicles.VehicleModel;
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 import FinalProject.View.Map.ModuleView;
 import FinalProject.View.Map.TrafficMapView;
-import FinalProject.View.Vehicles.VehicleView;
 import FinalProject.View.Vehicles.VehicleViewInterface;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  *
- * @author Richard
+ * @author Richard Bowen
  */
 public class VehicleController {
     // Controllers
@@ -32,6 +31,9 @@ public class VehicleController {
     VehicleModel vehicleModel;
     ModuleView moduleView;
     VehicleViewInterface vehicleViewInterface;
+    String type;
+
+    
     
     //Global variables
     int moduleHeight;
@@ -44,45 +46,75 @@ public class VehicleController {
     List<VertexModel> route;
     RoadModel currentRoad;
     int currentSlotSize;
-    HashMap<String,int[]> viewStartingPositions;
+    HashMap<String,double[]> viewPositions;
     int currentMove = 0;
-    HashMap<String, int[]> moves;
+    HashMap<String, double[]> moves;
     int secondPosition = 1;
     
+    /**
+    * Constructor of the vehicle controller class, this sets up the views,the 
+ models, the move parameters for the vehicle view and the starting startPosition
+ of the vehicles
+    * 
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
     public VehicleController() throws InterruptedException
     {
         this.mainController = MainController.getControllerInstance();
         this.mapModel = TrafficMapModel.getMapInstance();
         this.mapView = TrafficMapView.getInstance();
-        moduleHeight = GV.getModuleHeights();
-        moduleWidth = GV.getModuleWidths();
-        createViewPositions();
+        moduleHeight = GlobalVariables.getModuleHeights();
+        moduleWidth = GlobalVariables.getModuleWidths();
         setMoves();
+        this.moduleView = mapView.getModule();
     }
     
+    /**
+    * This methods sets the entry road behaviour. As the route is composed of
+    * vertexModel rather than nodes, the first one needs to be set up to start
+    * from the null position VertexMOdel.
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
     public void setUpFirst()
     {
         this.currentSlot = 0;
         this.currentVertex = route.get(0);
         this.currentRoad = currentVertex.getIn();
         this.currentSlotSize = currentRoad.getSlotSize();
-        this.moduleView = mapView.getModule(mapModel.getModulePositionFromVertexModel(currentVertex));
-        int[] startingPosition = viewStartingPositions.get(currentVertex.getLabel()+"-"+currentVertex.getType());
+        createVehicleViewStartingPositions();
+        double[] startingPosition = getStartingPositions(currentVertex.getLabel()+"-"+currentVertex.getType());
         moduleView.addVehicle(vehicleViewInterface, startingPosition);
         currentRoad.increaseWeighting();
     }
     
+    /**
+    * This methods sets up all of the next roads adding and removing Vertexmodel
+    * from the model
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
     public void setUpNext()
     {
         if(secondPosition==2)
         {
+            currentRoad.decreaseWeighting();
             this.currentSlot = 0;
             this.nextVertex = route.get(1);
             this.currentRoad = currentVertex.getRoad(currentVertex, nextVertex);
             this.currentSlotSize = currentRoad.getSlotSize();
+            currentRoad.increaseWeighting();
         }
         else
         {
+            currentRoad.decreaseWeighting();
             route.remove(currentVertex);
             currentVertex=route.get(0);
             if(route.size()>1)
@@ -91,19 +123,36 @@ public class VehicleController {
                 this.nextVertex = route.get(1);
                 this.currentRoad = currentVertex.getRoad(currentVertex, nextVertex);
                 this.currentSlotSize = currentRoad.getSlotSize();
+                currentRoad.increaseWeighting();
             }
         }
     }
     
-    
+    /**
+    * This methods sets the exit road behaviour. This sets up the road to the
+    * exit null vertex.
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
     public void setUpLast()
     {
+        currentRoad.increaseWeighting();
         currentSlot = 0;
         this.currentRoad = currentVertex.getOut();
         this.currentSlotSize = currentRoad.getSlotSize();
         route.remove(currentVertex);
     }
     
+    /**
+    * This is the main method of the controller, it is responsible for
+    * moving traffic through the model as well as on the graphical interface
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
     public void move() 
     {
         if(!mainController.vehicleListEmpty())
@@ -121,13 +170,6 @@ public class VehicleController {
                     currentRoad.occupySlot(currentSlot,vehicleModel);
                     currentRoad.vacateSlot(currentSlot-1);
                     currentSlot++;
-                    if(currentRoad.getType()=="Connecting"&&currentSlot==5)
-                    {
-                        moduleView.removeVehicle(vehicleViewInterface);
-                        this.moduleView = mapView.getModule(mapModel.getModulePositionFromVertexModel(nextVertex));
-                        int[] startingPosition = viewStartingPositions.get(nextVertex.getLabel()+"-"+nextVertex.getType());
-                        moduleView.addVehicle(vehicleViewInterface, startingPosition);
-                    }
                     moduleView.move(vehicleViewInterface, movePosition());
                 }
             }
@@ -139,7 +181,9 @@ public class VehicleController {
                 }
                 else if (route.size()==0)
                 {
-                    mainController.removeVehicle(vehicleModel);
+                    currentRoad.decreaseWeighting();
+                    moduleView.removeVehicle(vehicleViewInterface);
+                    
                 }
                 else
                 {
@@ -147,45 +191,64 @@ public class VehicleController {
                     setUpNext();
                 }
             }
-            currentVertex.printVertex();
-            System.out.println("Current position: "+ currentSlot);
         }
         else
         {
             System.out.println("No Current vehicles");
         }
     }
-
     
-    
-    private void createViewPositions()
+    /**
+    * This method offsets the starting position based on where the starting 
+    * position on the map is
+    * 
+    * @param     None
+    * @return    int offset starting position
+    */
+    //
+    public double[] getStartingPositions(String start)
     {
-        viewStartingPositions = new HashMap<>();
-        int moduleWidth = GV.getModuleWidths();
-        int moduleHeight = GV.getModuleHeights();
-        int[] northIn = {moduleWidth*125/256,-moduleHeight*5/64};
-        int[] northOut = {0,0};
-        int[] westIn = {-moduleWidth*5/16,moduleHeight*3/11};
-        int[] westOut = {0,0};
-        int[] southIn = {moduleWidth*5/16,moduleHeight*55/60};
-        int[] southOut = {0,0};
-        int[] eastIn = {moduleWidth*15/16,moduleHeight*51/110};
-        int[] eastOut = {0,0};
-        viewStartingPositions.put("North-In",northIn);
-        viewStartingPositions.put("North-Out",northOut);
-        viewStartingPositions.put("East-In",eastIn);
-        viewStartingPositions.put("East-Out",eastOut);
-        viewStartingPositions.put("South-In",southIn);
-        viewStartingPositions.put("South-Out",southOut);
-        viewStartingPositions.put("West-In",westIn);
-        viewStartingPositions.put("West-Out",westOut);
+        int[] modulePosition = currentVertex.getPosition();
+        double[] startPosition = viewPositions.get(start);
+        startPosition[0] = startPosition[0] + modulePosition[0]*moduleWidth;
+        startPosition[1] = startPosition[1] + modulePosition[1]*moduleWidth;
+        return startPosition;
     }
     
-    public int[] movePosition()
+    /**
+    * This creates the HashMap of starting startPosition for vehicles
+    * 
+    * @param     None
+    * @return    None
+    */
+    //
+    private void createVehicleViewStartingPositions()
     {
-        int[] move = new int[2];
+        viewPositions = new HashMap<>();
+        moduleWidth = GlobalVariables.getModuleWidths();
+        moduleHeight = GlobalVariables.getModuleHeights();
+        double[] northIn = {moduleWidth/2,0};
+        double[] westIn = {-moduleWidth/9,moduleHeight*3.5/11};
+        double[] southIn = {moduleWidth*7/24,-moduleHeight*5/18};
+        double[] eastIn = {moduleWidth,moduleHeight*47/110};
+        viewPositions.put("North-In",northIn);
+        viewPositions.put("East-In",eastIn);
+        viewPositions.put("South-In",southIn);
+        viewPositions.put("West-In",westIn);
+    }
+    
+    /**
+    * This methods sets the move behaviour. it dictates the cartesian coordinates
+    * that the view should be moved to next with reference to the current position
+    * 
+    * @param     None
+    * @return    int[] of the move the vehicle should make
+    */
+    //
+    public double[] movePosition()
+    {
+        double[] move = new double[2];
         String moveTypeCurrent = currentVertex.getLabel()+"-"+currentVertex.getType();
-        System.out.println("Current road Type: " + currentRoad.getType());
         if(currentRoad.getType()=="Entry"||currentRoad.getType()=="Exit")
         {
             move = moves.get(moveTypeCurrent);
@@ -193,13 +256,13 @@ public class VehicleController {
         else if(currentRoad.getType()=="Intersection")
         {
             String moveTypeNext = nextVertex.getLabel()+"-"+nextVertex.getType();
-            move[0] = (nextVertex.getVertex(moveTypeNext)[0] - currentVertex.getVertex(moveTypeCurrent)[0])*3;
-            move[1] = (nextVertex.getVertex(moveTypeNext)[1] - currentVertex.getVertex(moveTypeCurrent)[1])*3;
+            move[0] = (nextVertex.getVertex(moveTypeNext)[0] - currentVertex.getVertex(moveTypeCurrent)[0])*5;
+            move[1] = (nextVertex.getVertex(moveTypeNext)[1] - currentVertex.getVertex(moveTypeCurrent)[1])*5;
         }
         else
         {
             move = moves.get(moveTypeCurrent);
-            for(int i : move)
+            for(double i : move)
             {
                 i = i*-1; 
             }
@@ -207,20 +270,29 @@ public class VehicleController {
         return move;
     }
     
+    /**
+    * This methods creates the hashmap of the moves that a vehicles make
+    * based on its current Vertex
+    * 
+    * @param     None
+    * @return    int[] of the move the vehicle should make
+    */
+    //
     public void setMoves()
     {
         moves = new HashMap<>();
-        int moduleWidth = GV.getModuleWidths();
-        int moduleHeight = GV.getModuleHeights();
-              
-        int[] northIn = {0,moduleHeight*4/72};
-        int[] westIn = {moduleWidth*4/72,0};
-        int[] southIn = {0,-moduleHeight*4/72};
-        int[] eastIn = {-moduleWidth*4/72,0};
-        int[] northOut = {0,-moduleHeight*4/72};
-        int[] westOut = {-moduleWidth*4/72,0};
-        int[] southOut = {0,moduleHeight*4/72};
-        int[] eastOut = {moduleWidth*4/72,0};
+        double verticalMove = (int) Math.round(GlobalVariables.getModuleHeights()/13);
+        double horizontalMove = (int) Math.round(GlobalVariables.getModuleWidths()/13);
+        
+        double[] northIn = {0,verticalMove};
+        double[] northOut = {0,-verticalMove};
+        double[] southIn = {0,-verticalMove};
+        double[] southOut = {0,verticalMove};
+        
+        double[] eastIn = {-horizontalMove,0};
+        double[] westOut = {-horizontalMove,0};
+        double[] eastOut = {horizontalMove,0};
+        double[] westIn = {horizontalMove,0};
         
         moves.put("North-In",northIn);
         moves.put("North-Out",northOut);
@@ -231,4 +303,6 @@ public class VehicleController {
         moves.put("West-In", westIn);
         moves.put("West-Out",westOut);
     }
+    
+   
 }

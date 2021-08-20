@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Vehicles;
 
-import FinalProject.Resources.GV;
+import FinalProject.Resources.GlobalVariables;
 
 /**
  *
@@ -15,6 +15,6 @@ public class EmergencyVehicleModel extends VehicleModel{
     public EmergencyVehicleModel()  
     {
         this.size = 1;
-        this.speed = GV.getModuleHeights()/10;
+        this.speed = GlobalVariables.getModuleHeights()/10;
     }
 }

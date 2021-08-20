@@ -32,15 +32,14 @@ public class RoadModel {
     {
         this.type = type;
         this.weighting = 0;
-        if(type=="Connecting")
-        {
-            initiateSlots(10);
-        }
-        else
+        if(type=="Connecting"||type=="Exit"||type=="Entry")
         {
             initiateSlots(5);
         }
-        
+        else
+        {
+            initiateSlots(2);
+        }
         this.source = source;
         this.destination = destination;
     }
@@ -138,6 +137,11 @@ public class RoadModel {
         weighting++;
     }
 
+    public void decreaseWeighting()
+    {
+        weighting--;
+    }
+    
     public int getWeighting()
     {
       return weighting;

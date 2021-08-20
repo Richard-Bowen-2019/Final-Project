@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class EmergencyVehicleView extends VehicleView implements VehicleViewInterface
 {    
-    String[] imageList = {"police.png","ambulance.png"};
+    String[] imageList = {"\\police.png","\\ambulance.png"};
 
     public EmergencyVehicleView(String direction) throws IOException    
     {
