@@ -1,6 +1,3 @@
-
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,22 +5,16 @@
  */
 package FinalProject.Model.Vehicles;
 
-
 import FinalProject.Resources.GlobalVariables;
+
 /**
  *
  * @author Richard
  */
-public class VanModel extends VehicleModel{
-    
-    public VanModel() 
+public class EmergencyVehicleModel extends VehicleModel{
+    public EmergencyVehicleModel()  
     {
-        this.size = 2;
-        this.speed = GlobalVariables.getModuleHeights()/30;
+        this.size = 1;
+        this.speed = GlobalVariables.getModuleHeights()/10;
     }
-
-    
-    
-    
-    
 }

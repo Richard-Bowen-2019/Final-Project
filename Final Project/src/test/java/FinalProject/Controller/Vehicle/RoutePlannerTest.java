@@ -5,17 +5,10 @@
  */
 package FinalProject.Controller.Vehicle;
 
-import FinalProject.Model.Map.RoadModel;
-import FinalProject.Model.Map.IntersectionModel;
+import FinalProject.Controller.AStarRoute;
 import FinalProject.Model.Map.VertexModel;
 import FinalProject.Model.Map.TrafficMapModel;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,17 +19,14 @@ import static org.junit.Assert.*;
 public class RoutePlannerTest {
      
    TrafficMapModel model;
-   RoutePlanner instance;
+   AStarRoute instance;
    public RoutePlannerTest() throws InterruptedException {
         model = TrafficMapModel.getMapInstance();
-        instance = new RoutePlanner();
+        instance = new AStarRoute();
     }
     
-    
-
-    
-    /**
-     * Test of aStar method, of class RoutePlanner for one route.
+   /**
+     * Test of aStar method, of class AStarRoute for one route.
      */
     
     @Test
@@ -84,7 +74,7 @@ public class RoutePlannerTest {
     }
     
     /**
-     * Test of aStar method, of class RoutePlanner for second route.
+     * Test of aStar method, of class AStarRoute for second route.
      */
     @Test
     public void testAStar2() {
@@ -127,7 +117,7 @@ public class RoutePlannerTest {
     }
     
     /**
-     * Test of aStar method, of class RoutePlanner for third route.
+     * Test of aStar method, of class AStarRoute for third route.
      */
     @Test
     public void testAStar3() {
@@ -167,9 +157,9 @@ public class RoutePlannerTest {
     
     
     /**
-     * Test of Heuristic method, of class RoutePlanner.
+     * Test of Heuristic method, of class AStarRoute.
      */
-    @Test
+    /*@Test
     public void testHeuristic() {
         //System.out.println("Heuristic");
         VertexModel start = model.getMap().get(0).get(2).getVertex("North", "In");
@@ -188,9 +178,6 @@ public class RoutePlannerTest {
         result = instance.heuristic(start2, end2);
         assertEquals(expResult,result,0.01);
         
-        
-        
-        
-    }
+     }*/
 
 }

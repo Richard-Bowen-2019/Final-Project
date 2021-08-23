@@ -5,7 +5,7 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.GlobalVariables;
+import FinalProject.Resources.GlobalVariables;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +58,11 @@ public class VertexModel implements Comparable<VertexModel>{
         String key = this.label + "-" + this.getType();
         this.x = vertices.get(key)[0] + position[0]*12;
         this.y = vertices.get(key)[1] + position[1]*12;
+    }
+    
+    public int[] getVertex(String position)
+    {
+        return vertices.get(position);
     }
     
     public void setTotalCost(double totalCost) {

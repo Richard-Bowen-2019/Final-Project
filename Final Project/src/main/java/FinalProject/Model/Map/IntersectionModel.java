@@ -5,8 +5,6 @@
  */
 package FinalProject.Model.Map;
 
-import FinalProject.View.Map.IntersectionRoadView;
-import FinalProject.View.Map.RoadViewInterface;
 import java.util.ArrayList;
 
 /**
@@ -19,16 +17,28 @@ public class IntersectionModel {
     String[] direction = {"North", "South", "East", "West"};    
     String[] type = {"In","Out"};
     int [] intersectionPosition;
-    private RoadViewInterface rvi;
-    
+  
+    /**
+    * Constructor of the IntersectionModel class. 
+    *
+    * @param  position   the position of the module within which the intersection presides
+    * @return            None
+    */
     public IntersectionModel(int[] position)
     {
         this.intersectionPosition = position;
         createVertices();
-        createEdges();
-        this.rvi = new IntersectionRoadView();
+        createInternalEdges();
+        
     }    
     
+    /**
+    * Create the 8 vertices of the intersection and add them to the vertices arraylist 
+    *
+    * @param     None
+    * @return    None
+    */
+    //
     private void createVertices()
     {
         for(int i=0;i<direction.length;i++)
@@ -42,11 +52,26 @@ public class IntersectionModel {
         
     }
     
+    /**
+    * Getter for the vertices arraylist 
+    *
+    * @param     None
+    * @return    the arraylist vertices located in this class
+    */
+    //
     public ArrayList<VertexModel> getvertices()
     {
         return vertices;
     }
     
+    /**
+    * Getter for a specific vertexModel based on its label and type 
+    *
+    * @param     Label which is the direction of the vertex 
+    *            Type which is whether this vertex goes into our out of intersection   
+    * @return    the arraylist vertices located in this class
+    */
+    //
     public VertexModel getVertex(String label,String type)
     {
         VertexModel vertex = null;
@@ -60,7 +85,16 @@ public class IntersectionModel {
         return vertex;    
     }
     
-    private void createEdges()
+    /**
+    * Creates the internal edges of the intersection representing the centre of the intersection 
+    * This cycles through all vertices that flow into the IntersectionModel and
+    * find all of the vertices that flow out and create a connecting Road.
+    * 
+    * @param     None   
+    * @return    None
+    */
+    //
+    private void createInternalEdges()
     {
         for(int i = 0;i<direction.length;i++)
         {
@@ -69,20 +103,31 @@ public class IntersectionModel {
             {
                 if(v.getType()=="Out"&&v.getLabel()!=direction[i])
                 {
-                    source.addEdge(new RoadModel(source,v));
+                    source.addEdge(new RoadModel(source,v,"Intersection"));
                 }
             }
-        
         }
-        
     }
     
-    
+    /**
+    * Checks whether the intersection contains a specific vertex
+    * 
+    * @param     VertexModel object relating to check for   
+    * @return    true if the intersection contains the vertex, false if not
+    */
+    //
     public boolean containsVertex(VertexModel v)
     {
         return vertices.contains(v);
     }
     
+    /**
+    * Prints the vertices and edges of the intersection.
+    * 
+    * @param     None  
+    * @return    None
+    */
+    //
     public void printVerticesAndEdges()
     {
         for(VertexModel v: vertices)

@@ -10,12 +10,10 @@
  */
 package FinalProject.Model.Vehicles;
 
-import FinalProject.Controller.Vehicle.CarController;
-import FinalProject.Controller.Vehicle.MapController;
-import FinalProject.Controller.Vehicle.TruckController;
-import FinalProject.Controller.Vehicle.VehicleController;
+
+import FinalProject.Controller.VehicleController.VehicleControllers.TruckModelController;
 import FinalProject.Model.Map.VertexModel;
-import FinalProject.View.Vehicles.CarView;
+import FinalProject.Resources.GlobalVariables;
 import java.util.List;
 
 /**
@@ -24,10 +22,9 @@ import java.util.List;
  */
 public class TruckModel extends VehicleModel{
     
-    public TruckModel(List<VertexModel> route) throws InterruptedException
+    public TruckModel() 
     {
         this.size = 3;
-        controller = new VehicleController(new TruckController(route, this));
-        
+        this.speed = GlobalVariables.getModuleHeights()/30;
     }
 }

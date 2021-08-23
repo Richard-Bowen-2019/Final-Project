@@ -14,23 +14,22 @@ import java.util.ArrayList;
  *
  * @author Richard
  */
-public class VanView extends VehicleView implements VehicleViewInterface{
-    String[] imageList = {"\\van1.png"};
-    
-    public VanView(String direction) throws IOException
+public class EmergencyVehicleView extends VehicleView implements VehicleViewInterface
+{    
+    String[] imageList = {"\\police.png","\\ambulance.png"};
+
+    public EmergencyVehicleView(String direction) throws IOException    
     {
-        images = new ArrayList<>();
-        addImages(imageList);
-        this.vehicleImage = getVehicle(direction);
+            images = new ArrayList<>();
+            addImages(imageList);
+            this.vehicleImage = getVehicle(direction);
     }
 
     @Override
     public void paintComponent(Graphics g) 
     {
-        g.drawImage(vehicleImage,x,y,null);;
+        g.drawImage(vehicleImage,x,y,null);
     }
-
-    
 
     
 }
